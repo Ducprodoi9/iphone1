@@ -23,7 +23,7 @@ Source gốc đặt version **1.0.3 (21)**, trong khi App Store Connect thực t
 
 ## Xác minh và build
 
-**24 ca kiểm thử Node/JSDOM đạt**, Vite production build + sync www đạt, kiểm tra syntax JS/diff/XML đạt. JSDOM không xác nhận layout iPhone. Chưa compile native, archive ký số hoặc upload TestFlight: môi trường hiện tại không có Xcode/Swift/macOS. Không submit bản public mới.
+**24 ca kiểm thử Node/JSDOM đạt**, Vite production build + sync www đạt, kiểm tra syntax JS/diff/XML đạt. JSDOM không xác nhận layout iPhone. GitHub Actions đã compile native simulator arm64/x86_64 thành công với Xcode 26.6, log `BUILD SUCCEEDED`, ngày 15/10/2026. Lượt chạy: https://github.com/Ducprodoi9/iphone1/actions/runs/38772708952 (commit 897aba6025b891216326129956815891e18dc52e). Chưa archive ký số/upload TestFlight vì thiếu ba secret API key; bước upload được skipped. Không submit bản public mới.
 
 Trên macOS có Xcode và Node 22:
 
@@ -40,7 +40,7 @@ Quyền GitHub cho `Ducprodoi9/iphone1` đã được cấp ngày 15/10/2026; nh
 
 ## Rollback
 
-`rollback/` chứa nguyên ZIP iOS đầu vào; SHA256 ở `SHA256SUMS.txt`. Khôi phục source từ ZIP đó nếu cần. Rollback source không hạ được version App Store đã phát hành. Giữ baseline và commit triển khai trong git cục bộ; chưa ghi vào repository bên ngoài.
+Trong gói ZIP bàn giao, `rollback/` chứa nguyên ZIP iOS đầu vào; SHA256 ở `SHA256SUMS.txt`. Repo GitHub không chứa bản ZIP rollback. Khôi phục source từ ZIP đó nếu cần. Rollback source không hạ được version App Store đã phát hành. Giữ baseline và các commit triển khai trong git cục bộ. Source đã push lên nhánh riêng của repo iphone1, giữ nguyên main và lịch sử có sẵn.
 
 ## App 1.0.10: public/discoverability
 
