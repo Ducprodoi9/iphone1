@@ -1,0 +1,72 @@
+name: Verify iOS AI and Speed Room
+on:
+  push:
+    branches: ['codex/ios-ai-speed-room-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mobile-app-source/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: mobile-app-source
+        run: npm ci --no-audit --no-fund
+      - name: Test feature behavior
+        working-directory: mobile-app-source
+        run: npm test
+      - name: Build and sync bundled frontend
+        working-directory: mobile-app-source
+        run: npm run build:ios
+      - name: Compile existing UIKit shell for iOS Simulator
+        run: >-
+          xcodebuild
+          -project ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj
+          -scheme FuehrerscheinVietDuc
+          -configuration Release
+          -sdk iphonesimulator
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath '${{ runner.temp }}/fuehrerschein-derived'
+          CODE_SIGNING_ALLOWED=NO
+          build
+      - name: Save simulator app
+        uses: actions/upload-artifact@v4
+        with:
+          name: FuehrerscheinVietDuc-iOS-Simulator
+          path: ${{ runner.temp }}/fuehrerschein-derived/Build/Products/Release-iphonesimulator/FuehrerscheinVietDuc.app
+          retention-days: 7
+      - name: Check TestFlight credentials without revealing values
+        id: credentials
+        shell: bash
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: |
+          ready=true
+          for setting in ASC_KEY_ID ASC_ISSUER_ID ASC_PRIVATE_KEY; do
+            if [[ -z "${!setting:-}" ]]; then
+              printf '::notice::TestFlight upload unavailable: missing secret %s\n' "$setting"
+              printf -- '- Missing secret: `%s`\n' "$setting" >> "$GITHUB_STEP_SUMMARY"
+              ready=false
+            fi
+          done
+          printf 'ready=%s\n' "$ready" >> "$GITHUB_OUTPUT"
+          if [[ "$ready" == false ]]; then
+            printf '\nNative simulator verification only. No signed archive or TestFlight upload was performed.\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Archive and upload to App Store Connect for TestFlight
+        if: steps.credentials.outputs.ready == 'true'
+        timeout-minutes: 20
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: bash ci/upload-testflight.sh

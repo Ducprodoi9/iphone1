@@ -1,0 +1,10 @@
+Führerschein Viet-Duc iOS 1.0.3 (Build 10)
+
+Thay đổi duy nhất so với bản App Store source trước:
+- Từ khóa / Mẹo nhớ sau khi kiểm tra câu: đỏ -> xanh dương.
+- Border: #2563EB
+- Background: #EFF6FF
+- Text: #1D4ED8
+- Tăng CURRENT_PROJECT_VERSION từ 9 lên 10 để có thể upload TestFlight build mới nếu Build 9 đã tồn tại.
+
+Các fix iPhone/iPad, landscape/tablet, contain ảnh, tìm kiếm, fullscreen, retry mạng... giữ nguyên từ bản trước.

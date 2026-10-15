@@ -1,0 +1,429 @@
+/* Speed Room V1.3 - responsive cleanup: mobile 1 cột, iPad BXH + Chat cột phải */
+.speed-room-home-card{position:relative;overflow:hidden}
+.speed-room-home-card::after{content:"LIVE";position:absolute;top:8px;right:8px;background:#0b7d39;color:#fff;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:900;letter-spacing:.5px}
+.speed-room-card-icon{display:block;font-size:32px;line-height:34px;margin:0 auto}
+.speed-room-root{position:absolute;inset:0;z-index:1000;background:#f5f7f3;color:#102a2f;overflow:hidden;font-family:inherit;container-type:inline-size;container-name:speedroom}
+.speed-room-root,.speed-room-root *{box-sizing:border-box}
+.sr-shell{height:100%;display:flex;flex-direction:column;background:#f4f7f2}
+.sr-header{min-height:64px;background:#ffd927;border-bottom:1px solid #e8c200;display:grid;grid-template-columns:44px 1fr 48px;align-items:center;padding:0 10px;gap:6px;flex:0 0 auto}
+.sr-header .sr-back{width:40px;height:40px;border:0;background:transparent;font-size:40px;line-height:34px;color:#111;padding:0}
+.sr-header>div{text-align:center;min-width:0}
+.sr-header b{display:block;font-size:18px;font-weight:900;line-height:1.1}
+.sr-header small{display:block;font-size:11px;margin-top:3px;color:#4d4d37;font-weight:700}
+.sr-live{justify-self:end;background:#0d7d38;color:white;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900}
+.sr-room-main{flex:1;overflow:auto;overflow-x:hidden;padding:10px 10px 22px}
+.sr-room-status{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:7px;background:#fff;border:1px solid #dce5d9;border-radius:14px;padding:9px;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.sr-room-status>div{text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:50px;border-right:1px solid #e7ece5}
+.sr-room-status>div:last-child{border-right:0}
+.sr-room-status b{font-size:18px;color:#0b7d39}
+.sr-room-status small{font-size:10px;color:#69756b;margin-top:2px}
+.sr-next-wrap b{color:#111;font-size:22px}
+.sr-notice{margin:8px 0;padding:8px 10px;border-radius:10px;background:#e8f6e9;color:#285a35;font-size:11px;font-weight:700;line-height:1.35}
+.sr-room-grid{display:flex;flex-direction:column;gap:10px;min-width:0;max-width:100%}
+.sr-left-column,.sr-right-column{min-width:0;max-width:100%}
+.sr-right-column{display:flex;flex-direction:column;gap:10px}
+.sr-left-column:has(.sr-review-card[hidden]){display:none}
+.sr-leaderboard-card,.sr-chat-card,.sr-review-card{background:#fff;border:1px solid #dce5d9;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.04);overflow:hidden;margin:0;min-width:0;max-width:100%}
+.sr-leaderboard-card{display:flex;flex-direction:column;max-height:280px}
+.sr-leaderboard{overflow:auto;max-height:190px}
+.sr-chat-card{height:320px;min-height:280px}
+.sr-messages{min-height:0;flex:1;height:auto}
+.sr-section-title{height:39px;padding:0 11px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0ec;font-size:13px;font-weight:900}
+.sr-section-title small{font-size:9px;color:#738075;font-weight:700}
+.sr-board-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px 8px 4px}
+.sr-board-tabs button{height:30px;border:1px solid #dce5d9;background:#f7faf6;border-radius:8px;font-size:10px;font-weight:800;color:#536056;padding:0 4px}
+.sr-board-tabs button.active{background:#0b7d39;border-color:#0b7d39;color:#fff}
+.sr-board-current{text-align:center;font-size:10px;color:#758076;font-weight:800;padding:2px 8px 4px}
+.sr-leaderboard{padding:4px 8px 8px}
+.sr-rank-row{min-height:34px;display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:6px;border-bottom:1px solid #f0f2ef;font-size:12px;padding:2px 4px}
+.sr-rank-row:last-child{border-bottom:0}
+.sr-rank-row.is-me{background:#ecf9ef;border-radius:8px}
+.sr-rank-row b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-rank-row>span:last-child{font-weight:900;color:#0b7d39}
+.sr-rank{font-size:15px;text-align:center}
+.sr-rank-separator{text-align:center;color:#9aa39a;padding:2px 0;font-weight:900;letter-spacing:3px}
+.sr-chat-card{display:flex;flex-direction:column;min-height:232px}
+.sr-messages{height:145px;overflow:auto;padding:8px 10px;background:#fafcf9}
+.sr-message{display:grid;grid-template-columns:max-content 1fr;gap:7px;align-items:start;margin:0 0 7px;font-size:11px;line-height:1.35}
+.sr-message b{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0b7d39}
+.sr-message span{background:#fff;border:1px solid #e5eae3;border-radius:8px;padding:5px 7px;word-break:break-word}
+.sr-empty{padding:11px;text-align:center;color:#889187;font-size:11px}
+.sr-chat-form{display:grid;grid-template-columns:1fr 42px;gap:6px;padding:7px 8px;border-top:1px solid #edf0ec;background:#fff}
+.sr-chat-form input{height:38px;border:1px solid #ccd6c9;border-radius:10px;padding:0 10px;font-size:12px;outline:none;min-width:0}
+.sr-chat-form input:focus{border-color:#0b7d39;box-shadow:0 0 0 2px rgba(11,125,57,.1)}
+.sr-chat-form button{height:38px;border:0;border-radius:10px;background:#0b7d39;color:#fff;font-size:18px;font-weight:900}
+.sr-chat-form button:disabled{opacity:.5}
+.sr-chat-error{min-height:16px;padding:0 9px 5px;color:#bd1e1e;font-size:10px}
+.sr-toast{position:absolute;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:1300;background:#113f27;color:#fff;border-radius:999px;padding:9px 14px;max-width:88%;text-align:center;font-size:11px;font-weight:800;transition:.2s}
+.sr-toast.error{background:#b52222}
+.sr-toast.show{opacity:1;transform:translate(-50%,0)}
+
+
+/* Câu vừa rồi: nằm ngay trong phòng, không che Chat/BXH */
+.sr-review-card{margin-top:8px;border:1px solid #dce5d9;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.04);overflow:hidden}
+.sr-review-card[hidden]{display:none!important}
+.sr-review-title{height:auto;min-height:42px;gap:8px;flex-wrap:wrap;padding-top:7px;padding-bottom:7px}
+.sr-review-status{font-size:10px;font-weight:950;border-radius:999px;padding:5px 8px;white-space:nowrap}
+.sr-review-status.ok{background:#dcf8e5;color:#087239}
+.sr-review-status.bad{background:#ffe0e0;color:#b42323}
+.sr-review-status.missed{background:#eef1ee;color:#657067}
+.sr-review-body{padding:10px;background:#fbfdf9}
+.sr-review-question,.sr-review-question>*{min-width:0;max-width:100%}
+.sr-review-code{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:11px}
+.sr-review-code>b{font-size:13px;color:#102a2f}
+.sr-review-code>span{font-weight:900;color:#0b7d39}
+.sr-review-media{display:block;width:100%;max-height:180px;object-fit:contain;background:#fff;border-radius:10px;margin:0 auto 9px}
+.sr-review-question h3{font-size:15px;line-height:1.35;margin:5px 0;color:#102a2f}
+.sr-review-question>p{font-size:12px;line-height:1.35;color:#007c8a;margin:0 0 9px}
+.sr-review-answers{display:flex;flex-direction:column;gap:6px}
+.sr-review-answer{min-width:0;max-width:100%;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:7px;align-items:start;border:1px solid #e2e8e1;background:#fff;border-radius:9px;padding:7px 8px;position:relative}
+.sr-review-answer.is-correct-answer{background:#e7f9ed;border-color:#2ca45d}
+.sr-review-answer.is-wrong-selected{background:#ffe7e7;border-color:#dc4b4b}
+.sr-review-check{width:24px;height:24px;border:1px solid #cbd5cc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:950;background:#f9fbf9;color:#617064}
+.sr-review-answer.is-correct-answer .sr-review-check{background:#178447;border-color:#178447;color:#fff}
+.sr-review-answer.is-wrong-selected .sr-review-check{background:#d63c3c;border-color:#d63c3c;color:#fff}
+.sr-review-answer>div{min-width:0}
+.sr-review-answer b{display:block;overflow-wrap:anywhere;font-size:12px;line-height:1.3;color:#102a2f}
+.sr-review-answer em{display:block;overflow-wrap:anywhere;font-style:normal;font-size:11px;line-height:1.3;color:#007c8a;margin-top:2px}
+.sr-review-answer>i{font-style:normal;font-size:9px;font-weight:950;border-radius:999px;padding:4px 6px;align-self:center;white-space:nowrap}
+.sr-review-answer>i.correct{background:#c7f1d4;color:#087239}
+.sr-review-answer>i.wrong{background:#ffd0d0;color:#b42323}
+.sr-review-tip{margin-top:9px;padding:9px 10px;border-left:4px solid #2563eb;border-radius:8px;background:#eff6ff;display:flex;flex-direction:column;gap:3px}
+.sr-review-tip b,.sr-review-tip span,.sr-review-tip em{color:#1d4ed8!important}
+.sr-review-tip b{font-size:11px}
+.sr-review-tip span{font-size:12px;font-weight:800}
+.sr-review-tip em{font-size:11px;font-style:normal}
+.sr-review-round-board{margin-top:10px;border:1px solid #d9e4d7;border-radius:10px;overflow:hidden;background:#fff}
+.sr-review-round-board .sr-live-board-list{max-height:160px}
+
+/* Màn trả lời - giữ phong cách giao diện học hiện tại */
+.sr-question-layer{position:absolute;inset:0;z-index:1100;background:#d8f3df;display:flex;flex-direction:column;overflow:hidden}
+.sr-question-header{height:58px;background:#ffd927;border-bottom:1px solid #e9c400;display:grid;grid-template-columns:1fr auto;align-items:center;padding:0 12px;gap:8px;flex:0 0 auto}
+.sr-question-header>span{font-size:17px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-lang-toggle{border:1px solid #d2d2c6;background:#fff;border-radius:18px;padding:3px;display:flex;align-items:center;gap:3px;font-size:10px}
+.sr-lang-toggle b{padding:5px 8px;border-radius:13px;background:#ffd927}
+.sr-lang-toggle.vi-on b:first-child{background:transparent}
+.sr-lang-toggle.vi-on b:last-child{background:#ffd927}
+.sr-lang-toggle:not(.vi-on) b:last-child{background:transparent}
+.sr-lang-toggle i{font-style:normal;color:#555}
+.sr-question-topbar{height:38px;background:#178447;color:#fff;display:grid;grid-template-columns:1fr 66px 1fr;align-items:center;padding:0 11px;font-size:12px;font-weight:900;flex:0 0 auto}
+.sr-question-topbar>b{text-align:center;background:#fff;color:#13713e;border-radius:999px;padding:4px 5px;font-size:15px}
+.sr-question-topbar>span:last-child{text-align:right}
+.sr-question-body{flex:1;overflow:auto;padding:14px 14px 105px;background:#d8f3df}
+.sr-question-body h3{font-size:17px;line-height:1.4;margin:4px 0 10px;color:#0b2230;font-weight:850}
+.sr-q-vi{color:#007c8a;background:#f5fffa;border-left:4px solid #009c77;padding:9px 10px;border-radius:8px;font-size:13px;line-height:1.4;margin:0 0 12px}
+.sr-media{display:block;width:100%;max-height:210px;object-fit:contain;background:#fff;border-radius:10px;margin:0 auto 12px}
+.sr-answers{display:flex;flex-direction:column;gap:10px}
+.sr-answers label{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.82);border:2px solid rgba(255,255,255,.8);border-radius:12px;padding:10px;position:relative;transition:.15s}
+.sr-answers input{width:29px;height:29px;accent-color:#178447;flex:0 0 auto;margin:1px 0 0}
+.sr-answers span{min-width:0;flex:1}
+.sr-answers b{display:block;font-size:14px;line-height:1.4;color:#102a2f}
+.sr-answers em{display:block;font-size:12px;line-height:1.35;color:#007c8a;font-style:normal;margin-top:4px}
+.sr-answers label.is-correct-answer{background:#dcf8e5;border-color:#2ca45d;box-shadow:0 0 0 1px rgba(44,164,93,.08)}
+.sr-answers label.is-wrong-selected{background:#ffe3e3;border-color:#dc4b4b;box-shadow:0 0 0 1px rgba(220,75,75,.08)}
+.sr-answer-state{align-self:center;flex:0 0 auto;font-style:normal;font-size:10px;font-weight:950;border-radius:999px;padding:5px 7px;white-space:nowrap}
+.sr-answer-state.correct{color:#087239;background:#c7f1d4}
+.sr-answer-state.wrong{color:#b42323;background:#ffd0d0}
+.sr-question-footer{position:absolute;left:0;right:0;bottom:0;min-height:82px;background:#fff;border-top:1px solid #dfe5dc;display:grid;grid-template-columns:1fr 150px;gap:8px;align-items:center;padding:10px 12px 18px;z-index:2}
+.sr-question-footer small{display:block;font-size:10px;color:#69756b;line-height:1.3;margin-top:2px}
+.sr-question-footer .sr-feedback-ok,.sr-question-footer .sr-feedback-bad{display:block;font-size:14px;font-weight:950}
+.sr-question-footer .sr-feedback-ok{color:#087239}
+.sr-question-footer .sr-feedback-bad{color:#c42d2d}
+.sr-submit-answer{height:46px;border:0;border-radius:8px;background:#178447;color:#fff;font-weight:900;font-size:15px}
+.sr-submit-answer.is-wrong{background:#c43b3b}
+.sr-submit-answer:disabled{opacity:1}
+
+/* BXH câu hiện tại xuất hiện ngay sau khi học viên xác nhận */
+.sr-live-round-result{margin-top:14px;background:#fff;border:1px solid #cfe0cf;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.sr-live-board-title{min-height:42px;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #edf1ec;background:#f8fbf7}
+.sr-live-board-title b{font-size:12px;color:#163e26}
+.sr-live-board-title span{font-size:10px;color:#69756b;font-weight:800;white-space:nowrap}
+.sr-live-board-list{max-height:230px;overflow:auto;padding:4px 7px 7px}
+.sr-live-board-row{display:grid;grid-template-columns:32px minmax(90px,1fr) 64px 48px 34px;align-items:center;gap:5px;min-height:36px;border-bottom:1px solid #f0f2ef;font-size:10px;padding:2px 3px}
+.sr-live-board-row:last-child{border-bottom:0}
+.sr-live-board-row.is-me{background:#fff6c9;border-radius:8px}
+.sr-live-board-row b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
+.sr-live-board-row em{font-style:normal;font-weight:900}
+.sr-live-board-row.is-correct em{color:#087239}
+.sr-live-board-row.is-wrong em{color:#bf3030}
+.sr-live-board-row strong{font-size:10px;color:#4e5d52;text-align:right}
+.sr-live-board-row i{font-style:normal;font-weight:950;color:#0b7d39;text-align:right}
+.sr-live-board-row.is-wrong i{color:#bf3030}
+
+.sr-result-overlay{position:absolute;inset:0;z-index:1200;background:rgba(8,25,14,.58);display:flex;align-items:center;justify-content:center;padding:18px}
+.sr-result-box{width:min(340px,100%);background:#fff;border-radius:20px;padding:18px 16px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.sr-result-kicker{font-size:15px;font-weight:950;color:#0b7d39;margin-bottom:12px}
+.sr-fast-list{display:flex;flex-direction:column;gap:6px}
+.sr-fast-list>div{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:6px;background:#f6f9f5;border-radius:10px;padding:8px;text-align:left;font-size:12px}
+.sr-fast-list b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-fast-list strong{color:#0b7d39}
+.sr-fast-list p{font-size:12px;color:#6d776c}
+.sr-my-result{margin:12px 0 6px;padding:10px;background:#fff8cf;border-radius:10px;font-size:13px;font-weight:900}
+.sr-result-box>small{font-size:10px;color:#69756b}
+
+@media (max-width:430px){
+  .speed-room-root{position:fixed;inset:0}
+  .sr-header{padding-top:env(safe-area-inset-top);min-height:calc(58px + env(safe-area-inset-top))}
+  .sr-room-main{padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+  .sr-question-header{padding-top:env(safe-area-inset-top);height:calc(54px + env(safe-area-inset-top))}
+  .sr-question-footer{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+}
+
+/* Mobile / khung app hẹp: luôn 1 cột, không phụ thuộc độ rộng cửa sổ trình duyệt. */
+@container speedroom (max-width:719px){
+  .sr-room-main{padding:10px 9px 18px}
+  .sr-room-grid{display:flex;flex-direction:column;gap:10px}
+  .sr-left-column,.sr-right-column{width:100%;min-width:0}
+  .sr-right-column{gap:10px}
+  .sr-review-card{order:1;width:100%}
+  .sr-right-column{order:2}
+  .sr-leaderboard-card{order:1;width:100%;height:auto;min-height:0;max-height:270px;position:static}
+  .sr-chat-card{order:2;width:100%;height:320px;min-height:300px}
+  .sr-leaderboard{max-height:175px;overflow:auto;padding-bottom:8px}
+  .sr-messages{height:auto;min-height:0;max-height:none;flex:1}
+  .sr-board-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:8px 7px 4px}
+  .sr-board-tabs button{min-width:0;padding:0 2px;font-size:9px}
+  .sr-room-status{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 5px}
+  .sr-room-status>div{min-width:0}
+  .sr-room-status b{font-size:17px}
+  .sr-room-status small{font-size:9px;line-height:1.2}
+  .sr-review-body{padding:9px}
+  .sr-review-code{flex-wrap:wrap}
+  .sr-review-media{width:100%;height:auto;max-height:220px;object-fit:contain}
+  .sr-review-answer{grid-template-columns:26px minmax(0,1fr);gap:7px}
+  .sr-review-answer>i{grid-column:2;justify-self:start;margin-top:1px}
+  .sr-review-question h3{font-size:15px;overflow-wrap:anywhere}
+  .sr-review-question>p{font-size:12px;overflow-wrap:anywhere}
+  .sr-live-board-row{grid-template-columns:26px minmax(0,1fr) 52px 40px 30px;gap:3px}
+  .sr-live-board-row b{font-size:10px}
+  .sr-question-body{width:100%;max-width:100%;padding-left:12px;padding-right:12px}
+}
+
+/* iPad / tablet: câu vừa rồi bên trái, BXH nhỏ + Chat ngay dưới ở cột phải. */
+@container speedroom (min-width:720px){
+  .speed-room-root{position:absolute}
+  .sr-header{min-height:66px;padding-left:18px;padding-right:18px}
+  .sr-header b{font-size:20px}
+  .sr-room-main{width:min(1180px,calc(100% - 28px));margin:0 auto;padding:12px 0 24px}
+  .sr-room-status{padding:10px 14px}
+  .sr-room-status>div{min-height:58px}
+  .sr-room-status b{font-size:20px}
+  .sr-room-status small{font-size:11px}
+  .sr-notice{font-size:12px;padding:9px 12px}
+  .sr-room-grid{display:grid;grid-template-columns:minmax(0,2.7fr) minmax(255px,1fr);gap:12px;align-items:start}
+  .sr-left-column{min-width:0}
+  .sr-right-column{min-width:0;display:flex;flex-direction:column;gap:12px;position:sticky;top:0}
+  .sr-review-card,.sr-chat-card,.sr-leaderboard-card{margin:0}
+  .sr-leaderboard-card{height:245px;min-height:0;max-height:245px;position:static}
+  .sr-leaderboard{overflow:auto;flex:1;min-height:0;max-height:none;padding:5px 9px 9px}
+  .sr-chat-card{height:370px;min-height:330px;max-height:430px}
+  .sr-messages{height:auto;min-height:0;max-height:none;flex:1;padding:10px 11px}
+  .sr-message{font-size:11px;gap:7px;margin-bottom:8px}
+  .sr-message b{max-width:95px}
+  .sr-section-title{height:42px;font-size:13px;padding:0 11px}
+  .sr-review-title{height:auto;min-height:44px}
+  .sr-board-tabs{padding:8px 8px 4px;gap:5px}
+  .sr-board-tabs button{height:30px;font-size:9px;padding:0 2px}
+  .sr-chat-form{padding:8px;grid-template-columns:1fr 42px}
+  .sr-chat-form input,.sr-chat-form button{height:40px}
+  .sr-review-body{padding:12px}
+  .sr-review-media{max-height:260px}
+  .sr-review-question h3{font-size:16px}
+  .sr-review-answer{padding:8px 9px}
+  .sr-review-answer b{font-size:13px}
+  .sr-review-answer em{font-size:12px}
+  .sr-review-round-board .sr-live-board-list{max-height:190px}
+  .sr-question-body{width:min(760px,100%);margin:0 auto;padding:18px 24px 120px}
+  .sr-question-body h3{font-size:19px}
+  .sr-answers label{padding:12px}
+  .sr-answers b{font-size:15px}
+  .sr-answers em{font-size:13px}
+  .sr-live-board-list{max-height:270px}
+  .sr-live-board-row{grid-template-columns:36px minmax(130px,1fr) 78px 58px 38px;font-size:11px;min-height:39px}
+  .sr-live-board-row b{font-size:12px}
+  .sr-question-footer{grid-template-columns:minmax(0,1fr) 170px;padding-left:max(18px,calc((100% - 760px)/2 + 24px));padding-right:max(18px,calc((100% - 760px)/2 + 24px))}
+}
+
+@container speedroom (min-width:1100px){
+  .sr-room-main{width:min(1220px,calc(100% - 36px))}
+  .sr-room-grid{grid-template-columns:minmax(0,2.45fr) minmax(300px,.9fr);gap:14px}
+  .sr-leaderboard-card{height:255px;max-height:255px}
+  .sr-chat-card{height:400px;max-height:460px}
+  .sr-message b{max-width:120px}
+}
+
+
+/* ===== Speed Room V1.6: question UI compact / gần giao diện app mẫu ===== */
+.sr-question-layer.sr-exam-style{background:#cff4d6;color:#10201a}
+.sr-exam-topbar{min-height:50px;background:#329449;color:#fff;display:grid;grid-template-columns:38px minmax(0,1fr) 56px auto;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #257b3a;flex:0 0 auto}
+.sr-exam-info{font-size:23px;line-height:1;text-align:center;color:#fff;font-weight:500}
+.sr-exam-code{font-size:15px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-exam-topbar .sr-question-timer{justify-self:center;min-width:48px;text-align:center;background:#fff;color:#18813c;border-radius:999px;padding:5px 7px;font-size:13px;line-height:1;font-weight:800}
+.sr-exam-points{justify-self:end;font-size:13px;line-height:1.1;white-space:nowrap;font-weight:500}
+.sr-exam-points strong{font-size:15px;font-weight:700}
+.sr-question-body.sr-exam-body{background:#cff4d6;padding:14px 16px 82px;overflow:auto}
+.sr-exam-body .sr-media{width:min(720px,100%);max-height:270px;border-radius:0;background:transparent;object-fit:contain;margin:0 auto 12px}
+.sr-exam-body h3{width:min(860px,100%);margin:0 auto 15px;font-size:17px;line-height:1.28;color:#10201a;font-weight:750;letter-spacing:0}
+.sr-exam-answers{width:min(860px,100%);margin:0 auto;gap:9px}
+.sr-exam-answers label{display:grid;grid-template-columns:38px minmax(0,1fr);align-items:center;gap:10px;background:transparent;border:0;border-radius:0;padding:3px 0;cursor:pointer}
+.sr-exam-answers input{-webkit-appearance:none;appearance:none;width:34px;height:34px;margin:0;border:2px solid #111;background:#fff;border-radius:0;display:grid;place-content:center;accent-color:transparent;cursor:pointer}
+.sr-exam-answers input::after{content:"✓";font-size:25px;line-height:1;color:#168746;font-weight:850;transform:scale(0);transition:.08s}
+.sr-exam-answers input:checked::after{transform:scale(1)}
+.sr-exam-answers b{font-size:15px;line-height:1.27;color:#10201a;font-weight:650;letter-spacing:0}
+.sr-question-footer.sr-exam-footer{min-height:60px;background:#fff;border-top:1px solid #b8d7be;display:grid;grid-template-columns:minmax(0,1fr) 156px;gap:10px;padding:7px 12px 9px;align-items:center}
+.sr-exam-footer small{font-size:10px;color:#5f6d62;line-height:1.2}
+.sr-exam-footer .sr-submit-answer{height:42px;border-radius:6px;background:#2f9347;font-size:14px;font-weight:750}
+
+@container speedroom (max-width:719px){
+  .sr-exam-topbar{grid-template-columns:32px minmax(0,1fr) 44px auto;gap:4px;padding:0 7px;min-height:47px}
+  .sr-exam-info{font-size:20px}
+  .sr-exam-code{font-size:13px;font-weight:650}
+  .sr-exam-topbar .sr-question-timer{min-width:42px;padding:4px 6px;font-size:12px}
+  .sr-exam-points{font-size:12px}
+  .sr-exam-points strong{font-size:13px}
+  .sr-question-body.sr-exam-body{padding:12px 12px 74px}
+  .sr-exam-body .sr-media{max-height:205px;margin-bottom:10px}
+  .sr-exam-body h3{font-size:15px;line-height:1.28;margin-bottom:13px;font-weight:750}
+  .sr-exam-answers{gap:7px}
+  .sr-exam-answers label{grid-template-columns:34px minmax(0,1fr);gap:9px;padding:2px 0}
+  .sr-exam-answers input{width:30px;height:30px;border-width:2px}
+  .sr-exam-answers input::after{font-size:22px}
+  .sr-exam-answers b{font-size:13.5px;line-height:1.28;font-weight:650}
+  .sr-question-footer.sr-exam-footer{min-height:56px;grid-template-columns:minmax(0,1fr) 122px;gap:7px;padding:6px 8px calc(7px + env(safe-area-inset-bottom))}
+  .sr-exam-footer small{font-size:9px}
+  .sr-exam-footer .sr-submit-answer{height:38px;font-size:13px;border-radius:5px}
+}
+
+@container speedroom (max-width:430px){
+  .sr-exam-topbar{grid-template-columns:28px minmax(0,1fr) 41px auto;padding:0 6px;min-height:45px}
+  .sr-exam-info{font-size:18px}
+  .sr-exam-code{font-size:12.5px}
+  .sr-exam-topbar .sr-question-timer{min-width:39px;font-size:11.5px;padding:4px 5px}
+  .sr-exam-points{font-size:11.5px}
+  .sr-exam-points strong{font-size:12.5px}
+  .sr-question-body.sr-exam-body{padding:11px 10px 70px}
+  .sr-exam-body .sr-media{max-height:190px;margin-bottom:9px}
+  .sr-exam-body h3{font-size:14.5px;margin-bottom:12px}
+  .sr-exam-answers{gap:6px}
+  .sr-exam-answers label{grid-template-columns:32px minmax(0,1fr);gap:8px;padding:2px 0}
+  .sr-exam-answers input{width:28px;height:28px}
+  .sr-exam-answers input::after{font-size:20px}
+  .sr-exam-answers b{font-size:13px;line-height:1.25}
+  .sr-question-footer.sr-exam-footer{grid-template-columns:minmax(0,1fr) 112px;padding-left:7px;padding-right:7px}
+  .sr-exam-footer .sr-submit-answer{height:36px;font-size:12.5px}
+}
+
+/* ===== Speed Room V1.7: answer form spacing / lighter typography =====
+   Chỉ áp dụng cho màn câu hỏi của Phòng luyện tốc độ (.sr-exam-*).
+   Không tác động app-v190.js / app-v192.css hay các màn Học / Thi thử. */
+.sr-question-layer.sr-exam-style .sr-exam-body h3{
+  font-size:16px;
+  line-height:1.3;
+  margin:0 auto 20px;
+  font-weight:600;
+  letter-spacing:0;
+}
+.sr-question-layer.sr-exam-style .sr-exam-answers{
+  gap:22px;
+}
+.sr-question-layer.sr-exam-style .sr-exam-answers label{
+  grid-template-columns:46px minmax(0,1fr);
+  gap:14px;
+  padding:1px 0;
+  align-items:center;
+}
+.sr-question-layer.sr-exam-style .sr-exam-answers input{
+  width:44px;
+  height:44px;
+  border:2px solid #111;
+  border-radius:0;
+  background:#fff;
+}
+.sr-question-layer.sr-exam-style .sr-exam-answers input::after{
+  font-size:29px;
+}
+.sr-question-layer.sr-exam-style .sr-exam-answers b{
+  font-size:15px;
+  line-height:1.3;
+  font-weight:550;
+  letter-spacing:0;
+}
+
+@container speedroom (max-width:719px){
+  .sr-question-layer.sr-exam-style .sr-question-body.sr-exam-body{
+    padding-left:14px;
+    padding-right:14px;
+  }
+  .sr-question-layer.sr-exam-style .sr-exam-body h3{font-size:15px;line-height:1.3;margin-bottom:18px;font-weight:600}
+  .sr-question-layer.sr-exam-style .sr-exam-answers{gap:18px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers label{
+    grid-template-columns:44px minmax(0,1fr);
+    gap:13px;
+    padding:1px 0;
+  }
+  .sr-question-layer.sr-exam-style .sr-exam-answers input{width:42px;height:42px;border-width:2px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers input::after{font-size:27px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers b{font-size:14px;line-height:1.3;font-weight:550}
+}
+
+@container speedroom (max-width:430px){
+  .sr-question-layer.sr-exam-style .sr-question-body.sr-exam-body{
+    padding-left:12px;
+    padding-right:12px;
+  }
+  .sr-question-layer.sr-exam-style .sr-exam-body h3{
+    font-size:14.5px;
+    margin-bottom:17px;
+  }
+  .sr-question-layer.sr-exam-style .sr-exam-answers{gap:16px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers label{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:12px;
+  }
+  .sr-question-layer.sr-exam-style .sr-exam-answers input{width:40px;height:40px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers input::after{font-size:25px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers b{
+    font-size:13.5px;
+    line-height:1.3;
+    font-weight:550;
+  }
+}
+
+/* ===== Speed Room V2.0 competition rules / UI ===== */
+.sr-awards-card{background:#fff;border:1px solid #dce5d9;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.04);overflow:hidden}
+.sr-awards-content{padding:8px 9px;display:flex;flex-direction:column;gap:8px}
+.sr-award-group>b{display:block;font-size:11px;color:#6b5a00;margin-bottom:5px}
+.sr-award-group>div{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:28px;padding:4px 6px;border-radius:7px;background:#fff9d9;font-size:11px}
+.sr-award-group strong{color:#8a6400;white-space:nowrap}
+
+/* Typography riêng màn câu hỏi luyện tốc: gần form app gốc hơn, không tác động các màn khác. */
+.sr-question-layer.sr-exam-style,
+.sr-question-layer.sr-exam-style *{font-family:Arial,Helvetica,sans-serif}
+.sr-question-layer.sr-exam-style .sr-exam-topbar{min-height:46px;padding:0 8px;grid-template-columns:30px minmax(0,1fr) 44px auto;gap:5px}
+.sr-question-layer.sr-exam-style .sr-exam-info{font-size:19px;font-weight:400}
+.sr-question-layer.sr-exam-style .sr-exam-code{font-size:12px;font-weight:700}
+.sr-question-layer.sr-exam-style .sr-exam-topbar .sr-question-timer{min-width:40px;padding:4px 5px;font-size:11px;font-weight:700}
+.sr-question-layer.sr-exam-style .sr-exam-points{font-size:10.5px;font-weight:400}
+.sr-question-layer.sr-exam-style .sr-exam-points strong{font-size:12px;font-weight:700}
+.sr-question-layer.sr-exam-style .sr-question-body.sr-exam-body{padding:12px 12px 72px;background:#cff4d6}
+.sr-question-layer.sr-exam-style .sr-exam-body .sr-media{max-height:205px;margin-bottom:9px;border-radius:0;background:transparent}
+.sr-question-layer.sr-exam-style .sr-exam-body h3{font-size:11.5px;line-height:1.24;margin:0 auto 15px;font-weight:700;letter-spacing:0}
+.sr-question-layer.sr-exam-style .sr-exam-answers{gap:16px}
+.sr-question-layer.sr-exam-style .sr-exam-answers label{grid-template-columns:31px minmax(0,1fr);gap:11px;padding:0;align-items:start;background:transparent;border:0;border-radius:0}
+.sr-question-layer.sr-exam-style .sr-exam-answers input{width:29px;height:29px;border:2px solid #111;border-radius:0;background:#fff;margin:0}
+.sr-question-layer.sr-exam-style .sr-exam-answers input::after{font-size:20px}
+.sr-question-layer.sr-exam-style .sr-exam-answers b{font-size:11px;line-height:1.22;font-weight:700;letter-spacing:0}
+.sr-question-layer.sr-exam-style .sr-question-footer.sr-exam-footer{min-height:56px;grid-template-columns:minmax(0,1fr) 118px;gap:7px;padding:6px 8px calc(7px + env(safe-area-inset-bottom))}
+.sr-question-layer.sr-exam-style .sr-exam-footer small{font-size:9px}
+.sr-question-layer.sr-exam-style .sr-exam-footer .sr-submit-answer{height:36px;font-size:11.5px;border-radius:4px}
+
+@container speedroom (min-width:720px){
+  .sr-awards-card{max-height:190px}
+  .sr-awards-content{overflow:auto;max-height:145px}
+  .sr-right-column{gap:10px}
+  .sr-chat-card{height:320px;min-height:280px}
+  .sr-question-layer.sr-exam-style .sr-exam-body h3{font-size:13px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers b{font-size:12px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers input{width:32px;height:32px}
+  .sr-question-layer.sr-exam-style .sr-exam-answers label{grid-template-columns:34px minmax(0,1fr);gap:12px}
+}

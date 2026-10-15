@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# JavaScript dependencies and generated web output
+mobile-app-source/node_modules/
+mobile-app-source/dist/
+
+# Local environment files
+mobile-app-source/.env*
+!mobile-app-source/.env.example
+
+# Xcode local/generated files
+DerivedData/
+**/xcuserdata/
+*.xcuserstate
+
+# Archives, exported apps, and upload artifacts
+build/
+*.xcarchive/
+*.ipa
+*.dSYM/
+
+# Logs and temporary files
+*.log
+*.tmp

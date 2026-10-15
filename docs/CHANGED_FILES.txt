@@ -1,0 +1,33 @@
+Compared with uploaded iOS baseline e594e2e. M=modified, A=added, D=removed.
+
+M	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj/project.pbxproj
+M	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/ViewController.swift
+D	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/assets/app-v103.css
+D	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/assets/app-v103.js
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/assets/index-Bl7xDsmH.css
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/assets/index-C8IPiEMe.js
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/ai-assistant.css
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/ai-assistant.js
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/native.css
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/runtime.js
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/speed-room.css
+A	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/features/speed-room.js
+M	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/index.html
+M	mobile-app-source/index.html
+M	mobile-app-source/package-lock.json
+M	mobile-app-source/package.json
+A	mobile-app-source/public/features/ai-assistant.css
+A	mobile-app-source/public/features/ai-assistant.js
+A	mobile-app-source/public/features/native.css
+A	mobile-app-source/public/features/runtime.js
+A	mobile-app-source/public/features/speed-room.css
+A	mobile-app-source/public/features/speed-room.js
+A	mobile-app-source/scripts/sync-ios.mjs
+A	mobile-app-source/tests/features.test.cjs
+A	mobile-app-source/tests/runtime.test.cjs
+A	.github/workflows/ios-verify.yml
+A	START_HERE_VI.md
+A	docs/IMPLEMENTATION.md
+A	docs/TESTFLIGHT_CHECKLIST.md
+A	docs/TEST_RESULTS.txt
+A	docs/CHANGED_FILES.txt

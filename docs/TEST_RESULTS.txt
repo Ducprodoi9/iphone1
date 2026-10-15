@@ -1,0 +1,37 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> fuehrerschein-viet-duc@1.0.11 test
+> node --test tests/*.test.cjs
+
+✔ adds one pair of feature cards and leaves original learning card intact (156.730802ms)
+✔ AI renders escaped markdown safely, backend premium expiry and quota (89.533115ms)
+✔ greeting is instant and does not consume a server chat request (112.293458ms)
+✔ repeated submit sends one backend personal-analysis request and renders backend quota (147.335077ms)
+✔ network failure exposes retry and releases busy state (113.827158ms)
+✔ question code uses actual points and saved explanation (111.58456ms)
+✔ closing AI cancels pending response and does not alter learning card (142.702378ms)
+✔ Speed Room displays backend points despite -M and submits once with server score (145.527062ms)
+✔ rapid Speed open does not create duplicate room roots (77.503111ms)
+✔ closing Speed invalidates late state and stops old session (106.736061ms)
+✔ AI clear history waits for confirmation and uses existing API (139.001927ms)
+✔ AI overall deadline releases loading and exposes retry even when fetch never settles (138.666768ms)
+✔ Speed ranking tabs request the selected server period (118.251253ms)
+✔ Speed chat ignores repeated submits while its POST is pending (143.735989ms)
+✔ background and foreground cannot resend an in-flight Speed answer (211.477992ms)
+✔ accepted AI reply survives failed optional points validation without a charged resend (149.337343ms)
+✔ late closed-round error preserves a newer round and its selected answer (175.053384ms)
+✔ feature transport is available without changing the existing app API (3.581255ms)
+✔ uses production bearer token and never puts it in a URL (2.062197ms)
+✔ network failure never retries a chat or answer POST (2.05758ms)
+✔ timeout settles even if fetch ignores abort (17.50487ms)
+✔ aborting a closed feature settles without retry (3.463037ms)
+✔ response from a prior student is rejected (2.324822ms)
+✔ retains backend error code and quota payload (2.84728ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2988.360346

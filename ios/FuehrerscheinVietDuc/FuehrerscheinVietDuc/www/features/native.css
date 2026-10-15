@@ -1,0 +1,43 @@
+/* iOS host adaptations only. Production feature colors and content are retained. */
+.app-shell > .ai-assistant-root,
+.app-shell > .speed-room-root { position:absolute; inset:0; width:100%; height:100%; }
+.app-shell .ai-header,
+.app-shell .sr-header { padding-top:0; min-height:58px; background:var(--yellow,#ffd100); }
+.app-shell .ai-main { width:100%; min-height:0; padding:10px; display:flex; flex-direction:column; overflow:hidden; }
+.app-shell .ai-summary { flex:0 0 auto; }
+.app-shell .ai-note { flex:0 0 auto; font-size:12px; }
+.app-shell .ai-quick-list { flex:0 0 auto; display:flex; overflow-x:auto; gap:6px; padding-bottom:4px; }
+.app-shell .ai-quick { flex:0 0 155px; min-height:44px; font-size:12px; }
+.app-shell .ai-chat { flex:1 1 auto; min-height:0; }
+.app-shell .ai-messages { min-height:0; max-height:none; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+.app-shell .ai-form { flex:0 0 auto; }
+.app-shell .ai-input,
+.app-shell .sr-chat-input { font-size:16px; min-width:0; }
+.app-shell .ai-send { min-height:44px; }
+.app-shell .ai-bottom { flex:0 0 auto; min-height:38px; }
+.app-shell .ai-clear { min-height:32px; font-size:11px; }
+.app-shell .ai-quota { font-size:11px; }
+.app-shell .ai-error { flex:0 0 auto; }
+.app-shell #ai-assistant-root .ai-msg.assistant .ai-msg-bubble,
+.app-shell .ai-msg-bubble { font-size:14px; line-height:1.5; overflow-wrap:anywhere; }
+.app-shell #ai-assistant-root .ai-msg-bubble h3 { font-size:16px; }
+.app-shell #ai-assistant-root .ai-msg-bubble h4 { font-size:15px; }
+.app-shell .sr-room-main { min-height:0; overscroll-behavior:contain; }
+.app-shell .sr-question-layer.sr-exam-style { font-family:inherit; }
+.app-shell .sr-question-layer.sr-exam-style .sr-exam-body h3 { font-size:16px; line-height:1.4; }
+.app-shell .sr-question-layer.sr-exam-style .sr-exam-answers b { font-size:15px; line-height:1.4; font-weight:600; }
+.app-shell .sr-question-layer.sr-exam-style .sr-exam-answers label { min-height:44px; }
+.app-shell .sr-question-layer.sr-exam-style .sr-question-footer.sr-exam-footer { padding-bottom:7px; }
+.app-shell .sr-question-layer.sr-exam-style .sr-exam-footer .sr-submit-answer { height:44px; font-size:14px; }
+.app-shell .sr-connection-error { display:flex; align-items:center; gap:8px; padding:10px; margin-bottom:8px; border-radius:10px; background:#fff1f1; color:#a82020; font-size:13px; }
+.app-shell .sr-connection-error span { flex:1; }
+.app-shell .sr-connection-error button { min-height:40px; border:1px solid #dbb; border-radius:8px; background:#fff; color:inherit; }
+.app-shell .sr-chat-form { padding-bottom:8px; }
+.app-shell .sr-chat-form button { height:44px; }
+.app-shell .sr-message { font-size:13px; }
+.app-shell .sr-exam-body video { max-width:100%; }
+@media (max-height:570px) {
+  .app-shell .ai-summary,.app-shell .ai-note,.app-shell .ai-quick-list { display:none; }
+  .app-shell .ai-header { min-height:48px; }
+  .app-shell .ai-main { padding:5px; }
+}

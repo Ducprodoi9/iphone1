@@ -1,0 +1,32 @@
+PRODUCTION AUDIT - FUEHRERSCHEIN VIET-DUC
+VERSION 1.0.3 / BUILD 9
+========================================
+
+API production:
+https://nguyenron.com/fuehrerschein-backend/api
+
+[OK] Target iPhone + iPad (TARGETED_DEVICE_FAMILY = 1,2).
+[OK] iPhone giữ Portrait; iPad hỗ trợ Portrait + Landscape.
+[OK] App tự responsive theo viewport/orientation, không có màn chọn chế độ.
+[OK] Ảnh câu hỏi object-fit: contain, không crop mất góc.
+[OK] iPad landscape: câu hỏi trên, media trái, đáp án phải.
+[OK] Checkbox custom viền đen đậm.
+[OK] Phần học phản hồi đúng/sai local ngay, đồng bộ server nền.
+[OK] Đáp án phần học xáo lại khi vào lại lượt học; Thi thử giữ logic riêng.
+[OK] Tìm kiếm câu hỏi theo code/text/answer/keyword.
+[OK] keyword_de/keyword_vi hiện màu đỏ sau khi kiểm tra.
+[OK] Image lightbox + video fullscreen.
+[OK] Retry network và không logout vì lỗi mạng tạm thời.
+[OK] Bỏ fallback numeric hard-code của 1.2.34-010.
+[OK] App icon bổ sung đủ slot iPad.
+[OK] www production mới đã nhúng sẵn trong Xcode project.
+[OK] TypeScript source kiểm tra noEmit PASS.
+[OK] Info.plist lint PASS.
+[OK] Bundle JS production syntax check PASS.
+
+Cần làm trên Mac trước App Store:
+- Mở workspace bằng Xcode.
+- Chọn Team/Signing hiện tại.
+- Test iPhone + iPad thật, đặc biệt iPad landscape.
+- Archive -> TestFlight trước.
+- Chuẩn bị screenshot iPad nếu App Store Connect yêu cầu.
