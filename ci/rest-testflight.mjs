@@ -18,7 +18,8 @@ const saveJournal=()=>writeFileSync(journalPath,JSON.stringify(journal),{mode:0o
 saveJournal();
 let certificateID,profileID,keychainPath,priorKeychains,profilePaths=[],uploadStarted=false,processingFinished=false;
 const keychainPassword=randomBytes(30).toString('base64url');
-const run=(cmd,args,options={})=>execFileSync(cmd,args,{stdio:'inherit',...options});
+console.log('::add-mask::'+keychainPassword);
+const run=(cmd,args,options={})=>{try{return execFileSync(cmd,args,{stdio:'inherit',...options});}catch(error){throw new Error(cmd+' failed (exit '+error.status+'); command arguments redacted');}};
 const capture=(cmd,args)=>execFileSync(cmd,args,{encoding:'utf8'}).trim();
 const jsonPlist=(out,obj)=>run('python3',['-c','import plistlib,json,sys; plistlib.dump(json.loads(sys.argv[2]),open(sys.argv[1],"wb"))',out,JSON.stringify(obj)]);
 const pollBuild=async uploadID=>{
@@ -65,7 +66,7 @@ try {
   const certPath=join(temp,'distribution.cer'),pemPath=join(temp,'distribution.pem'),p12Path=join(temp,'distribution.p12');
   writeFileSync(certPath,certBytes,{mode:0o600});
   run('openssl',['x509','-inform','DER','-in',certPath,'-out',pemPath]);
-  run('openssl',['pkcs12','-export','-inkey',keyPath,'-in',pemPath,'-out',p12Path,'-passout','env:CI_P12_PASSWORD'],{env:{...process.env,CI_P12_PASSWORD:keychainPassword}});
+  run('openssl',['pkcs12','-export','-keypbe','PBE-SHA1-3DES','-certpbe','PBE-SHA1-3DES','-macalg','sha1','-inkey',keyPath,'-in',pemPath,'-out',p12Path,'-passout','env:CI_P12_PASSWORD'],{env:{...process.env,CI_P12_PASSWORD:keychainPassword}});
   keychainPath=join(temp,'signing.keychain-db');
   priorKeychains=[...capture('security',['list-keychains','-d','user']).matchAll(/"([^\"]+)"/g)].map(x=>x[1]);
   run('security',['create-keychain','-p',keychainPassword,keychainPath]);
@@ -100,7 +101,13 @@ try {
     if(!r.ok) throw new Error('Apple asset PUT failed: HTTP '+r.status);
   }
   uploadStarted=true; journal.uploadStarted=true; saveJournal();
-  await api('/v1/buildUploadFiles/'+file.id,'PATCH',{data:{type:'buildUploadFiles',id:file.id,attributes:{uploaded:true,sourceFileChecksums:{file:{algorithm:'MD5',hash:createHash('md5').update(ipa).digest('hex')}}}}});
+  try {
+    await api('/v1/buildUploadFiles/'+file.id,'PATCH',{data:{type:'buildUploadFiles',id:file.id,attributes:{uploaded:true,sourceFileChecksums:{file:{algorithm:'MD5',hash:createHash('md5').update(ipa).digest('hex')}}}}});
+  } catch(error) {
+    // A definitive validation rejection can be reconciled; network failures stay ambiguous.
+    if(/HTTP (400|422)\b/.test(error.message)){journal.commitRejected=true;saveJournal();}
+    throw error;
+  }
   console.log('IPA committed through the App Store Connect REST API.');
   await pollBuild(upload.id);
 } finally {
