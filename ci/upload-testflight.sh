@@ -13,8 +13,8 @@ command -v xcodebuild >/dev/null
 signing_dir="$(mktemp -d "${RUNNER_TEMP:-/tmp}/fuehrerschein-signing.XXXXXX")"
 trap 'rm -rf "$signing_dir"' EXIT
 umask 077
-printf '%s\n' "$ASC_PRIVATE_KEY" > "$signing_dir/AuthKey.p8"
-openssl pkey -in "$signing_dir/AuthKey.p8" -noout >/dev/null
+printf '%s\n' "$ASC_PRIVATE_KEY" > "$signing_dir/AuthKey_${ASC_KEY_ID}.p8"
+openssl pkey -in "$signing_dir/AuthKey_${ASC_KEY_ID}.p8" -noout >/dev/null
 # Keep the existing local ExportOptions intact; cloud signing must not pin an old local certificate.
 python3 - "$signing_dir/ExportOptions.plist" <<'PY'
 import plistlib,sys
@@ -27,7 +27,7 @@ with open(sys.argv[1], 'wb') as f:
 PY
 archive_path="${RUNNER_TEMP:-/tmp}/FuehrerscheinVietDuc.xcarchive"
 # Authentication is used by Xcode only; private key is never printed or uploaded as an artifact.
-auth_flags=(-allowProvisioningUpdates -authenticationKeyPath "$signing_dir/AuthKey.p8" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+auth_flags=(-allowProvisioningUpdates -authenticationKeyPath "$signing_dir/AuthKey_${ASC_KEY_ID}.p8" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
 xcodebuild \
   -project ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj \
   -scheme FuehrerscheinVietDuc -configuration Release \
