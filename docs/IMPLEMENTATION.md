@@ -2,7 +2,7 @@
 
 ## Source và version
 
-Source iOS được gửi là UIKit/WKWebView + React, iOS 15+, project `ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj`, scheme `FuehrerscheinVietDuc`. Không cần tạo lại app bằng Capacitor/CocoaPods. Giữ bundle `com.ronnguyen.fuehrerscheinvietduc` và Team `3JD7L6FN23`.
+Source iOS được gửi là UIKit/WKWebView + React, iOS 15+, project `ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj`, scheme `FuehrerscheinVietDuc`. Không cần tạo lại app bằng Capacitor/CocoaPods. Giữ bundle `com.ronnguyen.fuehrerscheinvietduc`. Source đầu vào dùng Team cũ `3JD7L6FN23`; theo Membership do chủ app cung cấp, cấu hình ký số hiện tại đã đổi sang Team `285CT4P989` (Đức Hà). Không đổi bundle hoặc dữ liệu học. ExportOptions bỏ pin certificate của Team cũ.
 
 Source gốc đặt version **1.0.3 (21)**, trong khi App Store Connect thực tế có **1.0.10 (21)**, Ready for Distribution. Không thể chứng minh source trùng binary đang phát hành chỉ bằng số build. Bản bàn giao đặt **1.0.11 (22)**; kiểm tra lại build cao nhất trước upload nếu có bên khác upload sau lần kiểm tra này. TestFlight build 21 cũ đã Expired.
 

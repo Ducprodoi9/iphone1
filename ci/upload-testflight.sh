@@ -20,7 +20,7 @@ import plistlib,sys
 with open(sys.argv[1], 'wb') as f:
     plistlib.dump({
         'method': 'app-store-connect', 'destination': 'upload',
-        'signingStyle': 'automatic', 'teamID': '3JD7L6FN23',
+        'signingStyle': 'automatic', 'teamID': '285CT4P989',
         'manageAppVersionAndBuildNumber': False, 'uploadSymbols': True,
     }, f)
 PY
@@ -32,7 +32,7 @@ xcodebuild \
   -scheme FuehrerscheinVietDuc -configuration Release \
   -destination 'generic/platform=iOS' -archivePath "$archive_path" \
   -derivedDataPath "${RUNNER_TEMP:-/tmp}/fuehrerschein-device-derived" \
-  "${auth_flags[@]}" DEVELOPMENT_TEAM=3JD7L6FN23 CODE_SIGN_STYLE=Automatic archive
+  "${auth_flags[@]}" DEVELOPMENT_TEAM=285CT4P989 CODE_SIGN_STYLE=Automatic archive
 xcodebuild -exportArchive -archivePath "$archive_path" \
   -exportPath "${RUNNER_TEMP:-/tmp}/fuehrerschein-export" \
   -exportOptionsPlist "$signing_dir/ExportOptions.plist" "${auth_flags[@]}"
