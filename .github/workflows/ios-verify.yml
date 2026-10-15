@@ -8,6 +8,8 @@ permissions:
 jobs:
   verify:
     runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.5.app/Contents/Developer
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
