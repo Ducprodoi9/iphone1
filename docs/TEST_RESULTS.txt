@@ -35,3 +35,18 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 ℹ skipped 0
 ℹ todo 0
 ℹ duration_ms 2988.360346
+
+CI verification 2026-10-15
+Apple REST JWT/signature/origin test: PASS
+Certificate POST is not automatically retried: PASS
+Upload full byte coverage and range validation: PASS
+Reject insecure upload hosts / leaked bearer headers: PASS
+Native simulator arm64/x86_64: BUILD SUCCEEDED
+iPhoneOS archive: ARCHIVE SUCCEEDED
+Manual distribution signing: EXPORT SUCCEEDED
+Apple REST buildUploads: COMPLETE
+TestFlight processing: VALID, 1.0.11 (22)
+Build ID: 2c08adc8-017b-4acd-9527-35beae8fadff
+Run: https://github.com/Ducprodoi9/iphone1/actions/runs/38778685932
+Physical iPhone layout and production regression: pending owner testing
+Public App Store submission: not performed

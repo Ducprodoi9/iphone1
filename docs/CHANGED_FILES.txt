@@ -1,5 +1,18 @@
 Compared with uploaded iOS baseline e594e2e. M=modified, A=added, D=removed.
 
+A	.github/workflows/ios-verify.yml
+A	START_HERE_VI.md
+A	build/ExportOptions.plist
+A	ci/asc-client.mjs
+A	ci/asc-client.test.mjs
+A	ci/cleanup-signing.mjs
+A	ci/rest-testflight.mjs
+A	ci/upload-testflight.sh
+A	ci/verify-asc-access.mjs
+A	docs/CHANGED_FILES.txt
+A	docs/IMPLEMENTATION.md
+A	docs/TESTFLIGHT_CHECKLIST.md
+A	docs/TEST_RESULTS.txt
 M	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc.xcodeproj/project.pbxproj
 M	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/ViewController.swift
 D	ios/FuehrerscheinVietDuc/FuehrerscheinVietDuc/www/assets/app-v103.css
@@ -25,9 +38,3 @@ A	mobile-app-source/public/features/speed-room.js
 A	mobile-app-source/scripts/sync-ios.mjs
 A	mobile-app-source/tests/features.test.cjs
 A	mobile-app-source/tests/runtime.test.cjs
-A	.github/workflows/ios-verify.yml
-A	START_HERE_VI.md
-A	docs/IMPLEMENTATION.md
-A	docs/TESTFLIGHT_CHECKLIST.md
-A	docs/TEST_RESULTS.txt
-A	docs/CHANGED_FILES.txt

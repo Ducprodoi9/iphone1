@@ -1,10 +1,11 @@
 # Checklist TestFlight trước phát hành
 
-Bản ZIP chưa upload TestFlight. Chỉ release sau khi chủ app test và đồng ý.
+Build **1.0.11 (22)** đã được Apple xử lý VALID ngày 15/10/2026; chờ chủ app kiểm thử trên thiết bị. Chỉ release sau khi chủ app test và đồng ý.
 
 ## Build/thiết bị
 
-- [ ] Compile simulator + archive ký số thành công; kiểm tra build cao nhất trên ASC trước upload 1.0.11 (22).
+- [x] Compile simulator, archive/export ký số và upload 1.0.11 (22) thành công; Apple processing VALID.
+- [x] Gắn build vào nhóm VietDuc Internal với Account Holder; trạng thái Testing, hạn 90 ngày.
 - [ ] Cài mới và update từ 1.0.10, giữ session/dữ liệu; iPhone SE và iPhone lớn; iPad nếu tiếp tục hỗ trợ.
 - [ ] Không viền đen/overflow; safe area/keyboard/scroll đúng; mở đóng màn nhiều lần.
 

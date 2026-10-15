@@ -16,14 +16,14 @@ Source gốc đặt version **1.0.3 (21)**, trong khi App Store Connect thực t
 - `scripts/sync-ios.mjs`, `package.json`, `package-lock.json`: build/sync www, kiểm thử và version frontend.
 - `ios/.../ViewController.swift`: keyboardLayoutGuide, kéo đóng keyboard và native JavaScript alert/confirm cho nội dung local tin cậy, cần cho xóa chat.
 - `project.pbxproj`: 1.0.11 (22). `ios/.../www/`: tài nguyên production được build lại.
-- `.github/workflows/ios-verify.yml`: kiểm thử JS, compile simulator trên macOS; chỉ archive/upload TestFlight khi có đủ ba secret ASC_KEY_ID, ASC_ISSUER_ID, ASC_PRIVATE_KEY. `ci/upload-testflight.sh` dùng cloud signing tự động, không pin certificate cũ.
+- `.github/workflows/ios-verify.yml`: kiểm thử JS, compile simulator trên macOS; chỉ archive/upload TestFlight khi có đủ ba secret ASC_KEY_ID, ASC_ISSUER_ID, ASC_PRIVATE_KEY. `ci/upload-testflight.sh` tạo unsigned archive; các script `ci/asc-client.mjs`, `ci/rest-testflight.mjs` dùng Apple REST API tạo certificate/profile tạm, ký export thủ công và upload qua buildUploads. `ci/cleanup-signing.mjs` chỉ dọn các ID của lượt CI được ghi trong journal, giữ lại khi Apple còn xử lý. Không thu hồi certificate cũ.
 - `tests/*.test.cjs`: kiểm thử transport, Markdown/quota/dữ liệu/điểm/gửi trùng/vòng đời. Danh sách đường dẫn đầy đủ ở `CHANGED_FILES.txt`.
 
 `src/main.tsx`, `src/api.ts`, `src/styles.css`, native `Info.plist` giữ nguyên byte. Đăng nhập/device lock/demo/Learn/Exam/Wrong/Marked/thống kê/profile giữ code cũ. Vì www được build lại, vẫn cần test hồi quy trên thiết bị. Không sửa web/backend/database production; không có SQL/migration cần chạy.
 
 ## Xác minh và build
 
-**24 ca kiểm thử Node/JSDOM đạt**, Vite production build + sync www đạt, kiểm tra syntax JS/diff/XML đạt. JSDOM không xác nhận layout iPhone. GitHub Actions đã compile native simulator arm64/x86_64 thành công với Xcode 26.6, log `BUILD SUCCEEDED`, ngày 15/10/2026. Lượt chạy: https://github.com/Ducprodoi9/iphone1/actions/runs/38772708952 (commit 897aba6025b891216326129956815891e18dc52e). Chưa archive ký số/upload TestFlight vì thiếu ba secret API key; bước upload được skipped. Không submit bản public mới.
+**24 ca kiểm thử Node/JSDOM và 4 ca Apple REST/upload validation đạt**, Vite production build + sync www đạt, kiểm tra syntax JS/diff/XML đạt. JSDOM không xác nhận layout iPhone. GitHub Actions đã compile native simulator arm64/x86_64 và archive iOS thành công. Ba secret đã có và Apple REST xác thực HTTP 200 đúng app. Cloud export của Xcode 26.5/26.6 báo CDWebService 3004 dù REST JWT hợp lệ; pipeline đã chuyển sang ký thủ công và upload REST. Lượt thành công: https://github.com/Ducprodoi9/iphone1/actions/runs/38778685932 (commit e57426bd504dbf023649ad95ef850a053ad7ae84). Log xác nhận ARCHIVE SUCCEEDED, EXPORT SUCCEEDED; IPA 2.081.844 byte được Apple nhận lúc 17:37 UTC ngày 15/10/2026. Apple xử lý COMPLETE và build VALID lúc 17:39 UTC: **1.0.11 (22)**, build ID `2c08adc8-017b-4acd-9527-35beae8fadff`. Certificate/profile tạm của CI đã được dọn; không thu hồi tài nguyên cũ. Nhóm `VietDuc Internal` đã có 1 tester là Account Holder và 1 build 1.0.11 (22), trạng thái **Testing**, hạn 90 ngày. Chưa submit bản public mới.
 
 Trên macOS có Xcode và Node 22:
 
@@ -36,7 +36,7 @@ npm run build:ios
 
 Mở Xcode project hiện có, chọn scheme `FuehrerscheinVietDuc`, kiểm tra signing hiện hữu, build simulator/iPhone, archive rồi upload TestFlight. Không chạy `cap add ios` để thay project hiện có.
 
-Quyền GitHub cho `Ducprodoi9/iphone1` đã được cấp ngày 15/10/2026; nhánh `codex/ios-ai-speed-room-20261015` đã tạo thành công, dựa trên main hiện hữu. Repo gốc chỉ có assets/ExportOptions, không có workflow build cũ. Đã kiểm tra trực tiếp trang Actions Secrets: repo và environment chưa có secret. Pipeline mới kiểm tra JS/native trước, rồi chỉ archive/upload khi đủ `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY` (nội dung p8). Ưu tiên dùng lại key còn hiệu lực; chưa yêu cầu tạo certificate/p12 mới. Chưa có build mới trên TestFlight.
+Quyền GitHub cho `Ducprodoi9/iphone1` đã được cấp ngày 15/10/2026; nhánh `codex/ios-ai-speed-room-20261015` giữ nguyên main và lịch sử. Ba secret `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY` đã được cấu hình; không cần cung cấp lại. Key Admin đã xác thực trực tiếp với API Apple. Pipeline lưu journal chỉ gồm ID signing/upload và kết quả build, không lưu khóa private hoặc JWT. Nếu Apple còn xử lý khi hết hạn chờ, tải journal artifact và chạy `node ci/cleanup-signing.mjs /path/to/vietduc-signing-resources.json` với ba secret sau khi trạng thái terminal để dọn đúng certificate/profile của lượt đó. Không tự chạy upload lại khi build đã được Apple nhận.
 
 ## Rollback
 
