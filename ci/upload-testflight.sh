@@ -8,6 +8,7 @@ for setting in ASC_KEY_ID ASC_ISSUER_ID ASC_PRIVATE_KEY; do
   fi
 done
 [[ "$ASC_KEY_ID" =~ ^[A-Za-z0-9]+$ ]] || { printf 'Invalid ASC_KEY_ID format\n' >&2; exit 1; }
+node ci/verify-asc-access.mjs
 command -v xcodebuild >/dev/null
 signing_dir="$(mktemp -d "${RUNNER_TEMP:-/tmp}/fuehrerschein-signing.XXXXXX")"
 trap 'rm -rf "$signing_dir"' EXIT
