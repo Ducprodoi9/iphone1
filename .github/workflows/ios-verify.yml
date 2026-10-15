@@ -18,6 +18,8 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: mobile-app-source/package-lock.json
+      - name: Test Apple REST transport and upload validation
+        run: node --test ci/asc-client.test.mjs
       - name: Install frontend dependencies
         working-directory: mobile-app-source
         run: npm ci --no-audit --no-fund
@@ -64,7 +66,7 @@ jobs:
           if [[ "$ready" == false ]]; then
             printf '\nNative simulator verification only. No signed archive or TestFlight upload was performed.\n' >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Archive and upload to App Store Connect for TestFlight
+      - name: Sign IPA, upload with Apple REST API and confirm build processing
         if: steps.credentials.outputs.ready == 'true'
         timeout-minutes: 20
         env:
@@ -72,3 +74,20 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
         run: bash ci/upload-testflight.sh
+      - name: Reconcile CI-owned signing resources
+        if: always() && steps.credentials.outputs.ready == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: node ci/cleanup-signing.mjs
+      - name: Save signing cleanup record and build result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestFlight-build-and-signing-record
+          path: |
+            ${{ runner.temp }}/vietduc-signing-resources.json
+            ${{ runner.temp }}/vietduc-build-result.json
+          if-no-files-found: ignore
+          retention-days: 30
