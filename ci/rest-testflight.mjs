@@ -6,8 +6,8 @@ import {execFileSync} from 'node:child_process';
 import {setTimeout as delay} from 'node:timers/promises';
 import {createAscClient,validateUploadOperations} from './asc-client.mjs';
 
-const APP='6793430149', BUNDLE='com.ronnguyen.fuehrerscheinvietduc', TEAM='285CT4P989';
-const VERSION='1.0.11', BUILD='22';
+import {readTarget} from './app-target.mjs';
+const {appID:APP,bundleID:BUNDLE,teamID:TEAM,version:VERSION,build:BUILD}=readTarget({requireAppID:true});
 if(process.platform!=='darwin') throw new Error('Signing requires a macOS runner');
 const api=createAscClient();
 const temp=mkdtempSync(join(process.env.RUNNER_TEMP||'/tmp','vietduc-rest-'));

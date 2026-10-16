@@ -1,7 +1,7 @@
-name: Verify iOS AI and Speed Room
+name: Verify and distribute Public iOS app
 on:
   push:
-    branches: ['codex/ios-ai-speed-room-*']
+    branches: ['codex/ios-public-*']
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
           cache: npm
           cache-dependency-path: mobile-app-source/package-lock.json
       - name: Test Apple REST transport and upload validation
-        run: node --test ci/asc-client.test.mjs
+        run: node --test ci/asc-client.test.mjs ci/app-target.test.mjs
       - name: Install frontend dependencies
         working-directory: mobile-app-source
         run: npm ci --no-audit --no-fund
@@ -55,6 +55,11 @@ jobs:
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
         run: |
           ready=true
+          if ! node --input-type=module -e "import {readTarget} from './ci/app-target.mjs'; process.exit(readTarget().appID===null?1:0);"; then
+            printf '::notice::Public app record is not configured; signed upload is skipped.\n'
+            printf 'Public native verification only. Set the new App ID in ci/app-target.json after creating the Public app record.\n' >> "$GITHUB_STEP_SUMMARY"
+            ready=false
+          fi
           for setting in ASC_KEY_ID ASC_ISSUER_ID ASC_PRIVATE_KEY; do
             if [[ -z "${!setting:-}" ]]; then
               printf '::notice::TestFlight upload unavailable: missing secret %s\n' "$setting"

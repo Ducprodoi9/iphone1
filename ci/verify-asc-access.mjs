@@ -1,4 +1,6 @@
 import { createPrivateKey, sign } from 'node:crypto';
+import {readTarget} from './app-target.mjs';
+const target=readTarget({requireAppID:true});
 
 // A read-only REST probe isolates API credentials from Xcode's export authentication.
 // Never log the key, JWT, Authorization header or request options.
@@ -15,7 +17,7 @@ const b64 = x => Buffer.from(JSON.stringify(x)).toString('base64url');
 const now = Math.floor(Date.now() / 1000);
 const input = `${b64({ alg:'ES256', kid:keyID, typ:'JWT' })}.${b64({ iss:issuerID, iat:now-30, exp:now+300, aud:'appstoreconnect-v1' })}`;
 const signature = sign('sha256', Buffer.from(input), {key, dsaEncoding:'ieee-p1363'}).toString('base64url');
-const response = await fetch('https://api.appstoreconnect.apple.com/v1/apps/6793430149?fields%5Bapps%5D=bundleId,name', {
+const response = await fetch('https://api.appstoreconnect.apple.com/v1/apps/'+target.appID+'?fields%5Bapps%5D=bundleId,name', {
   headers: {Authorization:`Bearer ${input}.${signature}`}, signal:AbortSignal.timeout(20000),
 });
 console.log(`App Store Connect REST credential probe: HTTP ${response.status}`);
@@ -24,7 +26,7 @@ if (!response.ok) {
   console.error('Apple error codes:', (data.errors || []).map(x => x.code).join(', ') || 'unknown');
   throw new Error('REST authentication/app access failed; archive/upload has not started');
 }
-if (data.data?.attributes?.bundleId !== 'com.ronnguyen.fuehrerscheinvietduc') {
+if (data.data?.attributes?.bundleId !== target.bundleID) {
   throw new Error('App Store record does not match the existing iOS bundle');
 }
 console.log('REST authentication succeeded; existing app and bundle access confirmed.');

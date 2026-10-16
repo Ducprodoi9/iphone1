@@ -4,7 +4,8 @@ import {createAscClient} from './asc-client.mjs';
 const path=process.argv[2]||join(process.env.RUNNER_TEMP||'/tmp','vietduc-signing-resources.json');
 if(!existsSync(path)){console.log('No signing resources were created.');process.exit(0);}
 const record=JSON.parse(readFileSync(path,'utf8'));
-if(record.appID!=='6793430149')throw new Error('Unexpected signing journal app');
+const {readTarget}=await import('./app-target.mjs');
+if(record.appID!==readTarget({requireAppID:true}).appID)throw new Error('Unexpected signing journal app');
 const api=createAscClient();
 if(record.uploadStarted&&!record.processingFinished){
   const upload=(await api('/v1/buildUploads/'+encodeURIComponent(record.uploadID)+'?include=build')).data;
