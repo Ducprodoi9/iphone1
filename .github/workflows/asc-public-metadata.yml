@@ -1,0 +1,23 @@
+name: Copy existing App Store assets to Public app
+on:
+  push:
+    branches: ['codex/asc-public-metadata-20261016']
+    paths: ['ci/copy-public-store-assets.mjs', '.github/workflows/asc-public-metadata.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Copy screenshots and review details within Apple account
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: node ci/copy-public-store-assets.mjs
