@@ -22,3 +22,5 @@ Architecture: reuse the UIKit/WKWebView shell, frontend and production API. Sepa
 - Source baseline local 632f2f7; remote 8a70c132cc63f95ffd1dd8b0792af10e919491c5.
 - Owner approved new Public name. Separate local worktree created; no source code behavior changed.
 - Browser login expired; secure password request was declined. Do not retry authentication without user request. Tasks 2–4 blocked at app-record creation; finish independent Task 1 and native CI first.
+
+- Task 1 complete: 31 tests and Vite build passed, independent review found no important issues. Native macOS CI38843970494 succeeded; signing/upload correctly skipped.

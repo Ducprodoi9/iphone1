@@ -24,3 +24,5 @@ The original source stores a random ios- device identifier in WKWebView localSto
 
 ## Verification
 31 tests passed: 24 existing feature tests, 4 Apple REST transport/upload tests, 3 Public target safety tests. Vite production build and www synchronization passed. Client source/native behavior was not modified.
+
+Native CI verification succeeded: https://github.com/Ducprodoi9/iphone1/actions/runs/38843970494 , commit a3a94da02a56469d2cef0c15ca224dbc1319b900. Simulator BUILD SUCCEEDED. Signing/upload skipped because the new Public app record/App ID is not configured.
