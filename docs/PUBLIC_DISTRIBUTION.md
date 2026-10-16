@@ -19,13 +19,15 @@ The owner approved the new App Store name **Führerschein Viet-Duc by Ron** afte
 - Free download; Public distribution selected. Availability restricted to **Germany and Vietnam**, future countries disabled. A save for 175 regions was blocked by automatic approval review, then the scope was reduced through the UI. The old app's availability is untouched.
 - Privacy questionnaire prepared for eight data types: Name, Email Address, Phone Number, Emails or Text Messages, Other User Content, User ID, Device ID, Product Interaction. All linked to account, not used for advertising tracking. App Functionality for all; Product Personalization additionally for AI content, User ID and Product Interaction.
 - **Privacy publication remains pending owner confirmation**: Apple's Publish dialog includes agreement that responses are accurate, comply with law/guidelines and will be promptly updated. Do not click acceptance before action-time confirmation.
+- Owner TestFlight group 4dc51e69-9d15-4b69-8d87-8b926702e0fd contains build 1.0.0 (1), Ready to Test; the existing Account Holder was invited. No other users were added.
+- Apple Add for Review validation reports **only the unpublished App Privacy information** as missing.
 - New Public app has **not yet been submitted or released**. Do not claim public App Store search availability before approval and release.
 
 ## Migration
 The original source stores a random ios- device identifier in WKWebView localStorage. A different bundle has independent local storage, so it creates a different device identifier. An existing student moving to Public therefore needs the existing admin device-reset action once. Do not bulk-reset production devices or bypass the device lock. Learning data and AI entitlements remain server/account based; session and local preferences require sign-in in the new app. Keep the Unlisted app and branch intact.
 
 ## Next execution
-1. Complete Apple's submission validation and owner TestFlight access.
+1. Submission validation and owner TestFlight invitation completed; privacy publication is the remaining prerequisite.
 2. Obtain owner confirmation for Apple's privacy publication agreement, publish the prepared responses, and submit the Public version.
 3. Verify actual review status. Preserve the existing Unlisted app and its pending update.
 4. After approval/release, verify public listing and search in permitted storefronts.
