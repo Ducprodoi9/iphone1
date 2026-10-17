@@ -93,7 +93,7 @@ try {
   const signedApp=join(verifiedPath,'Payload','FuehrerscheinVietDuc.app');
   run('codesign',['--verify','--deep','--strict','--verbose=2',signedApp]);
   const leafPrefix=join(temp,'signed-certificate-');
-  run('codesign',['--display','--extract-certificates',leafPrefix,signedApp]);
+  run('codesign',['--display','--extract-certificates='+leafPrefix,signedApp]);
   if(!readFileSync(leafPrefix+'0').equals(certBytes)) throw new Error('IPA signed with an unexpected certificate');
   const embeddedProfile=capture('security',['cms','-D','-i',join(signedApp,'embedded.mobileprovision')]);
   run('python3',['-c',
