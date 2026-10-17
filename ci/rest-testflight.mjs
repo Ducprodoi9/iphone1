@@ -87,7 +87,20 @@ try {
   run('xcodebuild',['-exportArchive','-archivePath',archive,'-exportPath',exportPath,'-exportOptionsPlist',exportOptions]);
   const ipaNames=readdirSync(exportPath).filter(x=>x.endsWith('.ipa'));
   if(ipaNames.length!==1) throw new Error('Expected exactly one exported IPA');
-  const ipa=readFileSync(join(exportPath,ipaNames[0]));
+  const ipaPath=join(exportPath,ipaNames[0]);
+  const verifiedPath=join(temp,'verify-ipa');
+  run('ditto',['-x','-k',ipaPath,verifiedPath]);
+  const signedApp=join(verifiedPath,'Payload','FuehrerscheinVietDuc.app');
+  run('codesign',['--verify','--deep','--strict','--verbose=2',signedApp]);
+  const leafPrefix=join(temp,'signed-certificate-');
+  run('codesign',['--display','--extract-certificates',leafPrefix,signedApp]);
+  if(!readFileSync(leafPrefix+'0').equals(certBytes)) throw new Error('IPA signed with an unexpected certificate');
+  const embeddedProfile=capture('security',['cms','-D','-i',join(signedApp,'embedded.mobileprovision')]);
+  run('python3',['-c',
+    'import plistlib,sys,datetime; p=plistlib.loads(sys.argv[1].encode()); e=p["Entitlements"]; assert e["application-identifier"]==sys.argv[2]; assert e.get("get-task-allow",False)==False; assert not p.get("ProvisionedDevices"); assert not p.get("ProvisionsAllDevices",False); assert p["ExpirationDate"]>datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)',
+    embeddedProfile,TEAM+'.'+BUNDLE]);
+  console.log('IPA_SIGNATURE_VERIFIED: strict codesign, distribution certificate and App Store profile match.');
+  const ipa=readFileSync(ipaPath);
   console.log('Manually signed IPA exported; bytes:',ipa.length);
   const upload=(await api('/v1/buildUploads','POST',{data:{type:'buildUploads',attributes:{cfBundleShortVersionString:VERSION,cfBundleVersion:BUILD,platform:'IOS'},relationships:{app:{data:{type:'apps',id:APP}}}}})).data;
   journal.uploadID=upload.id; saveJournal();
@@ -112,11 +125,15 @@ try {
   await pollBuild(upload.id);
 } finally {
   journal.processingFinished=processingFinished; saveJournal();
-  // Only delete resources created in this invocation. Never revoke existing signing identities.
-  if(!uploadStarted||processingFinished){
+  // Upload VALID is not App Review acceptance. Keep the registered signing
+  // assets after upload; removing local private keys/keychain remains safe.
+  if(!uploadStarted){
     if(profileID) try{await api('/v1/profiles/'+profileID,'DELETE');journal.profileID=null;saveJournal();console.log('Removed CI-owned profile:',profileID);}catch(e){console.error(e.message);}
     if(certificateID) try{await api('/v1/certificates/'+certificateID,'DELETE');journal.certificateID=null;saveJournal();console.log('Removed CI-owned certificate:',certificateID);}catch(e){console.error(e.message);}
-  }else console.log('Apple processing is pending; retain CI certificate/profile until processing is confirmed:',certificateID,profileID);
+  }else {
+    journal.retainedForAppReview=true;saveJournal();
+    console.log('Retained CI-owned certificate/profile for App Review:',certificateID,profileID);
+  }
   for(const p of profilePaths) rmSync(p,{force:true});
   if(priorKeychains) try{run('security',['list-keychains','-d','user','-s',...priorKeychains]);}catch{}
   if(keychainPath&&existsSync(keychainPath)) try{run('security',['delete-keychain',keychainPath]);}catch{}
