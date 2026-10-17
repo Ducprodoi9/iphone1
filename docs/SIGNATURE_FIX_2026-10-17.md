@@ -16,7 +16,11 @@
 No frontend, native feature implementation, backend API, database, account/device-lock or existing Unlisted app settings are changed. The prior GitHub head remains in history for rollback: `7a49bd3d01a730e291f629f7332ee1433ef78da3`. Do not restore the old certificate-revocation behavior.
 
 ## Validation
-Before the fix, two lifecycle regression tests failed because the signing certificate was revoked after upload. After the fix, all ten CI transport/target/lifecycle tests pass locally. Native signature checks, frontend tests and upload will run on the macOS CI runner.
+Before the fix, two lifecycle regression tests failed because the signing certificate was revoked after upload. After the fix, ten CI transport/target/lifecycle tests and all 24 frontend feature tests pass (34 total). Run 39033000383 completed successfully: native simulator build, device archive, manual distribution export, strict codesign verification, exact signing certificate comparison and App Store profile validation. Apple processing is VALID.
 
 ## Delivery
-Build 1.0.0 (2) pending CI and resubmission. Preserve Public free distribution in Germany and Vietnam, existing metadata/screenshots and the published privacy questionnaire. Do not claim review acceptance from TestFlight processing status.
+Build **1.0.0 (2)** uploaded; Apple build ID **d6086d17-43fa-469c-b465-6c7a037f67a1**, processing VALID. CI intentionally retained certificate **NH3T7PB939** and profile **GTPM4876B7**; both cleanup paths logged that no signing assets were revoked. Temporary private key and keychain were deleted. The build was added to the existing owner TestFlight group.
+
+Resubmitted to App Review on **2026-10-17 at 19:39 Asia/Saigon**. ASC visibly confirmed **1.0.0 (2) — Waiting for Review** in submission **f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff**. Reviewer notes explain ITMS-90035 and the signing lifecycle correction. Public free distribution in Germany and Vietnam, existing screenshots and the published privacy questionnaire were preserved. Automatic release after approval remains selected.
+
+App is awaiting Apple’s review, not publicly released yet. Do not infer review acceptance from TestFlight VALID processing.

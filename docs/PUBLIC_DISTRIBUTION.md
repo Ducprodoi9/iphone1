@@ -6,11 +6,18 @@ The owner approved the new App Store name **Führerschein Viet-Duc by Ron** afte
 - App Store name: Führerschein Viet-Duc by Ron (28 characters).
 - Bundle: com.ronnguyen.fuehrerscheinvietduc.public.
 - Team: 285CT4P989.
-- Version/build: 1.0.0 (1), the initial release of the separate Public record.
+- Current version/build: **1.0.0 (2)**. Build 1 was replaced following ITMS-90035 Invalid Signature.
 - App ID: **6823455331**, registered and created on 2026-10-16. All signing/probe/cleanup scripts read this target; upload rejects the old Unlisted App ID and wrong bundle/team.
 - Home-screen display name and all features/API URLs remain unchanged.
 
-## Current status
+## Current status — 2026-10-17
+- Repaired signing lifecycle; the pipeline no longer revokes uploaded signing certificates/profiles before App Review. See `docs/SIGNATURE_FIX_2026-10-17.md` for evidence, exact changed files and rollback head.
+- Successful CI run **39033000383**, commit **51bbcdaecdfcafa2066741143b7e80c373f8ee80**. All 34 tests passed; native build/archive/export and IPA signature checks passed.
+- Build **1.0.0 (2)**, ID **d6086d17-43fa-469c-b465-6c7a037f67a1**, processing VALID; added to the owner TestFlight group. Registered signing certificate/profile intentionally remain active for review; local private keys were removed.
+- Resubmitted **2026-10-17 19:39 Asia/Saigon** in submission **f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff**. ASC confirmed **Waiting for Review**, item **1.0.0 (2)**.
+- Public, free, Germany + Vietnam; automatic release after approval; metadata/screenshots/privacy preserved. Not yet released publicly. Existing Unlisted app and backend remain unchanged.
+
+## Historical status — initial build 1 on 2026-10-16
 - Signed archive/export/upload succeeded in GitHub Actions run 38847010815, commit 8e3fad2e4b2ce9674d3bc4bf045f04f61796d6e3.
 - Apple processing **VALID**: version 1.0.0 (1), build ID 2c5cd37d-2be3-4ac7-8f3d-9547b7427df7. CI-owned signing resources reconciled successfully.
 - Version metadata saved; build attached; automatic release after approval selected.
@@ -21,7 +28,7 @@ The owner approved the new App Store name **Führerschein Viet-Duc by Ron** afte
 - Owner confirmed Apple’s privacy publication agreement in chat on 2026-10-16. Published responses successfully; ASC visibly confirmed publication before submission.
 - Owner TestFlight group 4dc51e69-9d15-4b69-8d87-8b926702e0fd contains build 1.0.0 (1), Ready to Test; the existing Account Holder was invited. No other users were added.
 - Apple submission validation passed after publishing App Privacy. Final UI confirmed **1 Item Submitted**.
-- **Submitted for App Store review on 2026-10-16 at 12:55 Asia/Saigon.** Status: **Waiting for Review**. Submission ID: **f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff**. Item: **1.0.0 (1)**. Review detail URL: https://appstoreconnect.apple.com/apps/6823455331/distribution/reviewsubmissions/details/f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff
+- **Submitted for App Store review on 2026-10-16 at 12:55 Asia/Saigon.** Status at that initial submission: **Waiting for Review** (later invalidated and replaced by build 2). Submission ID: **f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff**. Item: **1.0.0 (1)**. Review detail URL: https://appstoreconnect.apple.com/apps/6823455331/distribution/reviewsubmissions/details/f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff
 - App is not yet released publicly. Public discovery/search must be verified only after approval and release; do not promise an approval date.
 
 ## Migration

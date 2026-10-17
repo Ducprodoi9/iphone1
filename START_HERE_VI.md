@@ -1,7 +1,11 @@
 # Führerschein Viet-Duc by Ron — Public target
 
-Nhánh này chuẩn bị bản Public riêng: **1.0.0 (1)**, bundle **com.ronnguyen.fuehrerscheinvietduc.public**, dùng lại nguyên source AI + Speed Room đã test ở app cũ 1.0.11 (22).
+App ID **6823455331**, bundle **com.ronnguyen.fuehrerscheinvietduc.public**, version **1.0.0 (2)**. Dùng nguyên chức năng AI + Speed Room đã test; backend và app Unlisted cũ không đổi.
 
-Đọc `docs/PUBLIC_DISTRIBUTION.md` trước khi build/phát hành. App ID Public là **6823455331**. Build **1.0.0 (1)** đã archive/export/upload thành công; Apple xác nhận **VALID** (run 38847010815). Đã gắn build vào hồ sơ, lưu metadata và chuyển ảnh iPhone/iPad. Phân phối Public, miễn phí, phạm vi Đức + Việt Nam. Đã Publish quyền riêng tư theo xác nhận của chủ tài khoản và **gửi Apple xét duyệt lúc 12:55 ngày 16/10/2026 (giờ Việt Nam)**. Trạng thái hiện tại **Waiting for Review**, submission f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff. Tự phát hành sau khi duyệt. **Chưa phát hành công khai.** Không dùng App ID 6793430149 của app Unlisted.
+Đã sửa lỗi **ITMS-90035 Invalid Signature**: giữ chứng chỉ/profile ký sau khi upload để Apple xét duyệt, vẫn xóa private key/keychain tạm trên runner. CI run **39033000383** thành công, 34 kiểm tra đạt; IPA được kiểm tra chữ ký và Apple processing **VALID**. Build 2 đã vào nhóm TestFlight của chủ tài khoản.
 
-App cũ giữ nguyên. Học viên chuyển sang bản Public cần admin reset thiết bị một lần trước đăng nhập; không sửa backend/database hoặc tự bỏ khóa thiết bị.
+Đã gửi lại Apple lúc **19:39 ngày 17/10/2026 (giờ Việt Nam)**. Trạng thái **Waiting for Review**, submission **f22e63ab-7c14-4c17-99f0-c89d0a4cc6ff**. Phân phối **Public, miễn phí, Đức + Việt Nam**, tự phát hành sau khi Apple duyệt. **Chưa phát hành công khai.**
+
+Đọc `docs/SIGNATURE_FIX_2026-10-17.md` và `docs/PUBLIC_DISTRIBUTION.md` trước khi tiếp tục. Không chạy lại cơ chế thu hồi chứng chỉ ngay sau upload; không dùng App ID Unlisted 6793430149 cho nhánh này.
+
+Học viên chuyển app sang Public cần admin reset thiết bị một lần trước đăng nhập; không sửa database hoặc bỏ khóa thiết bị.
