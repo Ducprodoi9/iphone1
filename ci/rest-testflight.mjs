@@ -5,6 +5,7 @@ import {createHash,randomBytes} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {setTimeout as delay} from 'node:timers/promises';
 import {createAscClient,validateUploadOperations} from './asc-client.mjs';
+import {selectRegisteredBundle} from './registered-bundle.mjs';
 
 import {readTarget} from './app-target.mjs';
 const {appID:APP,bundleID:BUNDLE,teamID:TEAM,version:VERSION,build:BUILD}=readTarget({requireAppID:true});
@@ -54,8 +55,9 @@ try {
   const releases=new Map((existing.included||[]).map(x=>[x.id,x.attributes.version]));
   if(existing.data.some(x=>releases.get(x.relationships?.preReleaseVersion?.data?.id)===VERSION)) throw new Error('This version/build already exists; inspect processing state before any new upload.');
   const bundles=(await api('/v1/bundleIds?filter%5Bidentifier%5D='+BUNDLE)).data;
-  if(bundles.length!==1) throw new Error('Expected exactly one existing registered bundle ID');
-  const bundleID=bundles[0].id;
+  console.log('Registered bundle candidates:',JSON.stringify(bundles.map(bundle=>({id:bundle.id,identifier:bundle.attributes?.identifier}))));
+  const bundleID=selectRegisteredBundle(bundles,BUNDLE);
+  console.log('Selected exact registered bundle:',BUNDLE,bundleID);
   const keyPath=join(temp,'distribution.key'),csrPath=join(temp,'distribution.csr');
   run('openssl',['genrsa','-out',keyPath,'2048']);
   run('openssl',['req','-new','-key',keyPath,'-out',csrPath,'-subj','/CN=VietDuc TestFlight CI/OU='+TEAM]);

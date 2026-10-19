@@ -19,7 +19,7 @@ jobs:
           cache: npm
           cache-dependency-path: mobile-app-source/package-lock.json
       - name: Test Apple REST transport and upload validation
-        run: node --test ci/asc-client.test.mjs ci/app-target.test.mjs ci/signing-retention.test.mjs
+        run: node --test ci/asc-client.test.mjs ci/app-target.test.mjs ci/signing-retention.test.mjs ci/registered-bundle.test.mjs
       - name: Install frontend dependencies
         working-directory: mobile-app-source
         run: npm ci --no-audit --no-fund
