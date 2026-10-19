@@ -1,0 +1,30 @@
+name: Inspect distribution signing capacity for legacy update
+on:
+  push:
+    branches: ['codex/asc-legacy-signing-inspect-*']
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read certificate IDs and related provisioning profiles only
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: |
+          node --input-type=module <<'NODE'
+          import {createAscClient} from './ci/asc-client.mjs';
+          const api=createAscClient();
+          const certs=await api('/v1/certificates?filter%5BcertificateType%5D=DISTRIBUTION&limit=200');
+          console.log('DISTRIBUTION_CERTIFICATES',JSON.stringify(certs.data.map(c=>({id:c.id,type:c.attributes.certificateType,expires:c.attributes.expirationDate}))));
+          const p=await api('/v1/profiles?include=certificates,bundleId&limit=200');
+          const bundles=new Map((p.included||[]).filter(x=>x.type==='bundleIds').map(x=>[x.id,x.attributes.identifier]));
+          console.log('DISTRIBUTION_PROFILES',JSON.stringify(p.data.filter(x=>x.attributes.profileType==='IOS_APP_STORE').map(x=>({id:x.id,state:x.attributes.profileState,bundle:bundles.get(x.relationships?.bundleId?.data?.id),certificates:x.relationships?.certificates?.data?.map(c=>c.id)}))));
+          NODE
