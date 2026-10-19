@@ -1,0 +1,32 @@
+name: Prioritize existing app TestFlight update
+on:
+  push:
+    branches: ['codex/asc-legacy-approved-release-*']
+permissions:
+  contents: read
+env:
+  ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+  ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+  ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+jobs:
+  release-approved-slot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Revoke only the unused Public build 3 CI signing slot approved by owner
+        run: node ci/release-approved-public-test-slot.mjs
+  assign-legacy-testflight:
+    needs: release-approved-slot
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Wait for legacy build 23 and assign existing internal testing group
+        run: node ci/assign-legacy-testflight.mjs
