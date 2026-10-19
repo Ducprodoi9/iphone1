@@ -76,7 +76,7 @@ jobs:
           profile: pixel_6
           disable-animations: true
           script: |
-            gradle -p mobile-app-source/android --no-daemon connectedDebugAndroidTest
+            gradle -p mobile-app-source/android --no-daemon :app:connectedDebugAndroidTest
             mkdir -p driving-qa
             adb pull /sdcard/Android/data/com.ronnguyen.fuehrerscheinvietduc.preview/files/Fuehrerschein-Android-Login.png driving-qa/
       - name: Collect reports
