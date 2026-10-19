@@ -6,8 +6,8 @@ import {execFileSync} from 'node:child_process';
 import {setTimeout as delay} from 'node:timers/promises';
 import {createAscClient,validateUploadOperations} from './asc-client.mjs';
 
-const APP='6793430149', BUNDLE='com.ronnguyen.fuehrerscheinvietduc', TEAM='285CT4P989';
-const VERSION='1.0.11', BUILD='22';
+import {readTarget} from './app-target.mjs';
+const {appID:APP,bundleID:BUNDLE,teamID:TEAM,version:VERSION,build:BUILD}=readTarget({requireAppID:true});
 if(process.platform!=='darwin') throw new Error('Signing requires a macOS runner');
 const api=createAscClient();
 const temp=mkdtempSync(join(process.env.RUNNER_TEMP||'/tmp','vietduc-rest-'));
@@ -28,18 +28,18 @@ const pollBuild=async uploadID=>{
     const d=await api('/v1/buildUploads/'+uploadID+'?include=build');
     const state=d.data.attributes?.state?.state;
     if(state!==previous){console.log('Apple build upload state:',state);previous=state;}
-    if(state==='FAILED'){processingFinished=true;throw new Error('Apple validation failed: '+JSON.stringify(d.data.attributes.state.errors||[]));}
+    if(state==='FAILED'){processingFinished=true;journal.processingState='FAILED';saveJournal();throw new Error('Apple validation failed: '+JSON.stringify(d.data.attributes.state.errors||[]));}
     const buildID=d.data.relationships?.build?.data?.id;
     if(buildID){
       const b=(await api('/v1/builds/'+buildID)).data;
       console.log('Build',buildID,'processing:',b.attributes.processingState);
       if(b.attributes.processingState==='VALID'){
-        processingFinished=true;
+        processingFinished=true;journal.processingState='VALID';saveJournal();
         console.log('TESTFLIGHT_BUILD_VALID',VERSION,BUILD,buildID);
         writeFileSync(join(process.env.RUNNER_TEMP||'/tmp','vietduc-build-result.json'),JSON.stringify({appID:APP,version:VERSION,build:BUILD,buildID,processingState:'VALID'}));
         return;
       }
-      if(['FAILED','INVALID'].includes(b.attributes.processingState)){processingFinished=true;throw new Error('Apple build processing rejected: '+b.attributes.processingState);}
+      if(['FAILED','INVALID'].includes(b.attributes.processingState)){processingFinished=true;journal.processingState=b.attributes.processingState;saveJournal();throw new Error('Apple build processing rejected: '+b.attributes.processingState);}
     }
     await delay(20000);
   }
@@ -87,7 +87,20 @@ try {
   run('xcodebuild',['-exportArchive','-archivePath',archive,'-exportPath',exportPath,'-exportOptionsPlist',exportOptions]);
   const ipaNames=readdirSync(exportPath).filter(x=>x.endsWith('.ipa'));
   if(ipaNames.length!==1) throw new Error('Expected exactly one exported IPA');
-  const ipa=readFileSync(join(exportPath,ipaNames[0]));
+  const ipaPath=join(exportPath,ipaNames[0]);
+  const verifiedPath=join(temp,'verify-ipa');
+  run('ditto',['-x','-k',ipaPath,verifiedPath]);
+  const signedApp=join(verifiedPath,'Payload','FuehrerscheinVietDuc.app');
+  run('codesign',['--verify','--deep','--strict','--verbose=2',signedApp]);
+  const leafPrefix=join(temp,'signed-certificate-');
+  run('codesign',['--display','--extract-certificates='+leafPrefix,signedApp]);
+  if(!readFileSync(leafPrefix+'0').equals(certBytes)) throw new Error('IPA signed with an unexpected certificate');
+  const embeddedProfile=capture('security',['cms','-D','-i',join(signedApp,'embedded.mobileprovision')]);
+  run('python3',['-c',
+    'import plistlib,sys,datetime; p=plistlib.loads(sys.argv[1].encode()); e=p["Entitlements"]; assert e["application-identifier"]==sys.argv[2]; assert e.get("get-task-allow",False)==False; assert not p.get("ProvisionedDevices"); assert not p.get("ProvisionsAllDevices",False); assert p["ExpirationDate"]>datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)',
+    embeddedProfile,TEAM+'.'+BUNDLE]);
+  console.log('IPA_SIGNATURE_VERIFIED: strict codesign, distribution certificate and App Store profile match.');
+  const ipa=readFileSync(ipaPath);
   console.log('Manually signed IPA exported; bytes:',ipa.length);
   const upload=(await api('/v1/buildUploads','POST',{data:{type:'buildUploads',attributes:{cfBundleShortVersionString:VERSION,cfBundleVersion:BUILD,platform:'IOS'},relationships:{app:{data:{type:'apps',id:APP}}}}})).data;
   journal.uploadID=upload.id; saveJournal();
@@ -112,11 +125,15 @@ try {
   await pollBuild(upload.id);
 } finally {
   journal.processingFinished=processingFinished; saveJournal();
-  // Only delete resources created in this invocation. Never revoke existing signing identities.
-  if(!uploadStarted||processingFinished){
+  // Upload VALID is not App Review acceptance. Keep the registered signing
+  // assets after a valid or uncertain upload; only confirmed failed uploads can be cleaned.
+  if(!uploadStarted||['FAILED','INVALID'].includes(journal.processingState)){
     if(profileID) try{await api('/v1/profiles/'+profileID,'DELETE');journal.profileID=null;saveJournal();console.log('Removed CI-owned profile:',profileID);}catch(e){console.error(e.message);}
     if(certificateID) try{await api('/v1/certificates/'+certificateID,'DELETE');journal.certificateID=null;saveJournal();console.log('Removed CI-owned certificate:',certificateID);}catch(e){console.error(e.message);}
-  }else console.log('Apple processing is pending; retain CI certificate/profile until processing is confirmed:',certificateID,profileID);
+  }else {
+    journal.retainedForAppReview=true;saveJournal();
+    console.log('Retained CI-owned certificate/profile for App Review:',certificateID,profileID);
+  }
   for(const p of profilePaths) rmSync(p,{force:true});
   if(priorKeychains) try{run('security',['list-keychains','-d','user','-s',...priorKeychains]);}catch{}
   if(keychainPath&&existsSync(keychainPath)) try{run('security',['delete-keychain',keychainPath]);}catch{}

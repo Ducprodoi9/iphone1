@@ -1,4 +1,4 @@
-name: Verify iOS AI and Speed Room
+name: Update existing iOS app AI explanations
 on:
   push:
     branches: ['codex/ios-ai-speed-room-*']
@@ -19,7 +19,7 @@ jobs:
           cache: npm
           cache-dependency-path: mobile-app-source/package-lock.json
       - name: Test Apple REST transport and upload validation
-        run: node --test ci/asc-client.test.mjs
+        run: node --test ci/asc-client.test.mjs ci/app-target.test.mjs ci/signing-retention.test.mjs
       - name: Install frontend dependencies
         working-directory: mobile-app-source
         run: npm ci --no-audit --no-fund
