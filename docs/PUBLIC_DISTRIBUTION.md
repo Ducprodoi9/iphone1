@@ -6,11 +6,17 @@ The owner approved the new App Store name **Führerschein Viet-Duc by Ron** afte
 - App Store name: Führerschein Viet-Duc by Ron (28 characters).
 - Bundle: com.ronnguyen.fuehrerscheinvietduc.public.
 - Team: 285CT4P989.
-- Current version/build: **1.0.0 (2)**. Build 1 was replaced following ITMS-90035 Invalid Signature.
+- Current TestFlight version/build: **1.0.0 (3)**; App Review remains **1.0.0 (2)**. Build 1 was replaced following ITMS-90035 Invalid Signature.
 - App ID: **6823455331**, registered and created on 2026-10-16. All signing/probe/cleanup scripts read this target; upload rejects the old Unlisted App ID and wrong bundle/team.
 - Home-screen display name and all features/API URLs remain unchanged.
 
-## Current status — 2026-10-17
+## Current status — 2026-10-19
+- Reconfirmed in ASC: App Review submission still Waiting for Review, item 1.0.0 (2). No review submission was cancelled or replaced.
+- Fixed missing per-question AI explanation UI by porting the supplied production web module. See `docs/AI_EXPLANATION_FIX_2026-10-19.md`.
+- CI **39218620713** succeeded with 45 tests, native simulator/archive/export and strict signature verification. Apple confirmed **1.0.0 (3)** VALID, build **72b15b9f-a3de-415e-a506-4522739a3cd0**.
+- Build 3 is assigned to the existing Owner Public TestFlight group with one tester. What to Test saved. Wait for owner verification of this functional fix before replacing the review build. No public-release or availability change was made.
+
+## Historical status — 2026-10-17
 - Repaired signing lifecycle; the pipeline no longer revokes uploaded signing certificates/profiles before App Review. See `docs/SIGNATURE_FIX_2026-10-17.md` for evidence, exact changed files and rollback head.
 - Successful CI run **39033000383**, commit **51bbcdaecdfcafa2066741143b7e80c373f8ee80**. All 34 tests passed; native build/archive/export and IPA signature checks passed.
 - Build **1.0.0 (2)**, ID **d6086d17-43fa-469c-b465-6c7a037f67a1**, processing VALID; added to the owner TestFlight group. Registered signing certificate/profile intentionally remain active for review; local private keys were removed.
@@ -35,7 +41,7 @@ The owner approved the new App Store name **Führerschein Viet-Duc by Ron** afte
 The original source stores a random ios- device identifier in WKWebView localStorage. A different bundle has independent local storage, so it creates a different device identifier. An existing student moving to Public therefore needs the existing admin device-reset action once. Do not bulk-reset production devices or bypass the device lock. Learning data and AI entitlements remain server/account based; session and local preferences require sign-in in the new app. Keep the Unlisted app and branch intact.
 
 ## Next execution
-1. Wait for Apple’s review decision. The owner receives Apple’s review email.
+1. Owner tests AI explanation build 3 in TestFlight. Preserve the existing build 2 review submission until that test is accepted.
 2. If Apple requests information, inspect the actual review message before changing source or metadata.
 3. After approval/automatic release, verify public listing and search in Germany and Vietnam. Preserve the existing Unlisted app.
 

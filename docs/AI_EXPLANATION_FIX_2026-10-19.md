@@ -36,4 +36,12 @@ Baseline `10b0ebf0dec3ac4b893447f310b902e997e6936d` giữ nguyên trên GitHub; 
 ## Phân phối
 Ngày 19/10 đã kiểm tra trực tiếp Apple: 1.0.0 (2) vẫn Waiting for Review. Bản sửa tăng lên 1.0.0 (3), chưa thay bản đang duyệt.
 
-Bản sửa sẽ được cấp cho nhóm Owner Public TestFlight hiện có. Không tự thay build trong hồ sơ App Review hoặc phát hành bản sửa trước khi chủ app test.
+Bản sửa đã được cấp cho nhóm Owner Public TestFlight hiện có (1 tester); checklist What to Test đã lưu trên Apple. Không tự thay build trong hồ sơ App Review hoặc phát hành bản sửa trước khi chủ app test.
+
+## Kết quả build đã xác nhận
+- Nhánh: `codex/ios-public-ai-explanations-20261019`.
+- Source commit: `a3a8aa53405da8d354d7cd79b9aed117523a794e`; build commit: `456da3ffc12e3918852b65f3e5d55940f98ab779`.
+- CI: https://github.com/Ducprodoi9/iphone1/actions/runs/39218620713 — SUCCESS.
+- CI đạt 45/45 kiểm thử, native simulator BUILD SUCCEEDED, ARCHIVE SUCCEEDED, EXPORT SUCCEEDED và IPA_SIGNATURE_VERIFIED.
+- Apple: TESTFLIGHT_BUILD_VALID **1.0.0 (3)** lúc **2026-10-19 07:54:34 UTC**; build ID **72b15b9f-a3de-415e-a506-4522739a3cd0**.
+- Giữ certificate `7F7QT8C86C` và profile `23R29WCXCH` theo cơ chế ký đã sửa, không thu hồi tài nguyên ký của build đang chờ review. Khóa private/keychain tạm trên runner đã được dọn.
