@@ -42,3 +42,14 @@ Nhóm Owner Public TestFlight có 1 tester `tài khoản chủ app`, trạng th�
 - API gắn nhóm tự động báo403; sau đăng nhập lại đã thêm build23 vào nhóm **VietDuc Internal** qua UI. Trang build xác nhận Group(1), Internal, 1 tester; danh sách iOS Builds hiển thị Version1.0.12 / Build23 / VietDuc Internal. What to Test đã Saved.
 - App cũ đã sẵn sàng cho chủ app cập nhật trong TestFlight. App Store hiện vẫn 1.0.11; chưa submit1.0.12 trước khi chủ app test phần giải thích AI. Public2 vẫn Waiting for Review theo phiên Apple vừa xác nhận; không thay submission đó.
 - Không rerun build23 hoặc workflow thu hồi slot đã hoàn tất. Nếu cần sửa source tiếp, tăng build number; giữ nguyên target app cũ theo yêu cầu ưu tiên của chủ app.
+
+
+## Đã gửi App Review sau khi chủ app test OK — 19/10/2026
+
+- Chủ app xác nhận test thành công và yêu cầu đưa bản cập nhật lên App Store.
+- Đã tạo version **1.0.12** trên đúng app cũ **6793430149** và gắn build **23** đã test; không rebuild hoặc upload lại.
+- Giữ nguyên tên, description, keywords, URL, copyright, ảnh kế thừa, thông tin demo/contact review, privacy và distribution. Chỉ nhập release notes tiếng Đức và cập nhật Notes hướng dẫn review giải thích AI.
+- Giữ lựa chọn **Automatically release this version** và **Release update to all users immediately**.
+- Đã bấm Submit for Review. Apple hiển thị **1 Item Submitted**, sau đó trang **iOS Submission / Waiting for Review**, hàng **iOS App 1.0.12 / 1.0.12 (23) / Waiting for Review**, Date Submitted **Oct 19, 2026 at 4:13 PM (GMT+7)**.
+- Đây là trạng thái đã nhận hồ sơ, chưa phải đã được duyệt hoặc live. App cũ 1.0.11 tiếp tục hoạt động trong thời gian chờ. Giữ certificate/profile của build23 trong suốt App Review.
+- Chế độ Unlisted của app cũ không thay đổi; bản Public riêng giữ nguyên submission hiện có, không được thay thế bởi thao tác này.
