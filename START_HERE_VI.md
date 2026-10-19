@@ -1,9 +1,11 @@
-# Führerschein Viet-Duc — ưu tiên app cũ
+# Führerschein Viet-Duc — app cũ đã có TestFlight mới
 
-Đang cập nhật **app cũ** App ID **6793430149**, bundle **com.ronnguyen.fuehrerscheinvietduc**, phiên bản **1.0.12 (23)**, nhánh `codex/ios-ai-speed-room-ai-explanations-20261019`.
+**1.0.12 (23)** đã upload thành công cho **app cũ** App ID **6793430149**, bundle **com.ronnguyen.fuehrerscheinvietduc**. Apple processing **VALID**; đã thêm vào nhóm **VietDuc Internal**, 1 tester hiện có; checklist What to Test đã lưu qua App Store Connect.
 
-App đang phát hành: 1.0.11 (22). Bản mới bổ sung giải thích AI trực tiếp tại câu hỏi theo web, đồng thời dùng quy trình ký đã sửa để giữ certificate/profile sau upload. Có 47 kiểm thử và frontend build/sync đạt.
+Source: nhánh `codex/ios-ai-speed-room-ai-explanations-20261019`, build commit `c8d09cb47ad292b6e5fa83b4c7851058ec18b599`. GitHub Actions **39221450343**, attempt 2: 50 kiểm thử, native simulator/archive/export, kiểm tra IPA signature và upload đều thành công. Apple xác nhận VALID lúc 08:31:30 UTC ngày 19/10/2026.
 
-Đọc `docs/LEGACY_AI_EXPLANATION_UPDATE_2026-10-19.md` để xem file thay đổi, tác động, checklist và rollback. Giữ bundle/app cũ; không nhầm target Public `6823455331` / bundle `.public`. Backend và device lock không đổi.
+App Store vẫn phát hành 1.0.11 (22). Chờ chủ app test giải thích AI trên 1.0.12 (23) trước khi gửi cập nhật này lên App Store. Không upload lại cùng build 23.
 
-**CHƯA CÓ BUILD23 TRÊN TESTFLIGHT.** Run39221450343 đã qua 50 kiểm thử và archive, nhưng Apple HTTP409 vì đầy Distribution certificate. Kiểm tra chỉ đọc xác nhận hai slot đang dành cho Public build2 và3. Cần xác nhận của chủ app trước khi thu hồi đúng cert[chứng chỉ Public build 3]/profile[profile Public build 3] (Public3 chưa submit); giữ cert[chứng chỉ Public build 2]/profile[profile Public build 2] (Public2 đang review). Xem báo cáo để tiếp tục; không tự rerun khi slot chưa được giải phóng.
+Chủ app đã xác nhận thu hồi riêng tài nguyên ký Public build3 chưa submit để nhường chỗ ký app cũ. Đã thực hiện qua workflow39222818187; không thu hồi chứng chỉ Public build2 đang chờ duyệt. Bước gắn nhóm API bị403, đã hoàn tất qua UI sau đăng nhập. Không chạy lại thao tác giải phóng slot đã xong.
+
+Đọc `docs/LEGACY_AI_EXPLANATION_UPDATE_2026-10-19.md` để xem file thay đổi, tác động, checklist và rollback. Không đổi bundle/device lock/backend. Cập nhật qua TestFlight của app cũ đang dùng; không cần chuyển sang app Public.
