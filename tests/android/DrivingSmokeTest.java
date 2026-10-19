@@ -28,10 +28,10 @@ public class DrivingSmokeTest {
       WebView web=activity.getBridge().getWebView();long deadline=System.currentTimeMillis()+45000;String text="";
       while(System.currentTimeMillis()<deadline) {
         text=evaluate(web,"document.body.innerText");
-        if(text.contains("Đăng nhập")||text.contains("Anmelden"))break;
+        if(text.contains("Đăng nhập")||text.contains("Einloggen"))break;
         Thread.sleep(250);
       }
-      assertTrue("Login renders: "+text,text.contains("Đăng nhập")||text.contains("Anmelden"));
+      assertTrue("Login renders: "+text,text.contains("Đăng nhập")||text.contains("Einloggen"));
       assertEquals("\"android\"",evaluate(web,"Capacitor.getPlatform()"));
       assertEquals("true",evaluate(web,"localStorage.getItem('device_id').startsWith('android-')"));
       assertEquals("\"function\"",evaluate(web,"typeof FuehrerscheinFeatures.api"));

@@ -1,4 +1,4 @@
-import {readFile,writeFile,mkdir,cp} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,cp,rm} from 'node:fs/promises';
 const root='mobile-app-source/android';
 const buildPath=`${root}/app/build.gradle`;
 let build=await readFile(buildPath,'utf8');
@@ -27,6 +27,7 @@ public class MainActivity extends BridgeActivity {
 }
 `);
 const testDir=`${root}/app/src/androidTest/java/com/ronnguyen/fuehrerscheinvietduc`;
+await rm(`${root}/app/src/androidTest/java/com/getcapacitor`,{recursive:true,force:true});
 await mkdir(testDir,{recursive:true});
 await cp('tests/android/DrivingSmokeTest.java',`${testDir}/DrivingSmokeTest.java`);
 console.log('Configured preview package, current SDK defaults, native HTTP and Android safe area.');
