@@ -1,0 +1,93 @@
+name: Driving Android APK and AAB
+on:
+  push:
+    branches: ['android-driving-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mobile-app-source/package-lock.json
+      - name: Verify current iOS feature source
+        run: |
+          cd mobile-app-source
+          npm ci
+          npm test
+          npx tsc --noEmit
+          npm run build
+          cd ..
+          node --test tests/android-bootstrap.test.mjs
+      - name: Prepare shared iOS bundle for Android
+        run: |
+          node scripts/prepare-driving-android.mjs
+          cd mobile-app-source
+          npm install --no-save --package-lock=false @capacitor/android@8.4.0
+          npx cap add android
+          npx cap sync android
+          cd ..
+          node scripts/configure-driving-android.mjs
+          python3 -m pip install Pillow
+          python3 scripts/driving-android-icons.py
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+      - name: Install SDK and build checked APK/AAB
+        run: |
+          sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+          gradle -p mobile-app-source/android --no-daemon :app:lintDebug :app:assembleDebug :app:bundleRelease :app:assembleDebugAndroidTest
+      - name: Stage APK and bundle for signing
+        run: |
+          mkdir -p driving-deliverables
+          cp mobile-app-source/android/app/build/outputs/apk/debug/app-debug.apk driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.0-preview1.apk
+          cp mobile-app-source/android/app/build/outputs/bundle/release/app-release.aab driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.0-UNSIGNED.aab
+          sha256sum driving-deliverables/* > driving-deliverables/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fuehrerschein-Android-preview1
+          path: driving-deliverables/
+          retention-days: 14
+      - name: Enable emulator acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Test app and production API on Android 15
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            gradle -p mobile-app-source/android --no-daemon connectedDebugAndroidTest
+            mkdir -p driving-qa
+            adb pull /sdcard/Android/data/com.ronnguyen.fuehrerscheinvietduc.preview/files/Fuehrerschein-Android-Login.png driving-qa/
+      - name: Collect reports
+        if: always()
+        run: |
+          mkdir -p driving-qa
+          cp -r mobile-app-source/android/app/build/reports driving-qa/reports || true
+          cp -r mobile-app-source/android/app/build/outputs/androidTest-results driving-qa/ || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Fuehrerschein-Android-QA
+          path: driving-qa/
+          retention-days: 14
