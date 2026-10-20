@@ -1,7 +1,7 @@
 name: Driving Android APK and AAB
 on:
   push:
-    branches: ['android-driving-*', 'codex/android-ai-explanations-*']
+    branches: ['android-driving-*', 'codex/android-ai-explanations-*', 'codex/android-store-screens-20261020']
   workflow_dispatch:
 permissions:
   contents: read
@@ -78,6 +78,14 @@ jobs:
           disable-animations: true
           script: |
             gradle -p mobile-app-source/android --no-daemon :app:connectedDebugAndroidTest
+            mkdir -p driving-store-screens
+            adb pull /sdcard/Download/Fuehrerschein-Android-Login.png driving-store-screens/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fuehrerschein-Android-Store-Screenshots
+          path: driving-store-screens/
+          if-no-files-found: error
+          retention-days: 14
       - name: Collect reports
         if: always()
         run: |

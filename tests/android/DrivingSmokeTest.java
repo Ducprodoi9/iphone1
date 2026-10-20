@@ -1,12 +1,11 @@
 package com.ronnguyen.fuehrerscheinvietduc;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.os.ParcelFileDescriptor;
 import android.webkit.WebView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.junit.Test;
@@ -46,9 +45,12 @@ public class DrivingSmokeTest {
       while(System.currentTimeMillis()<deadline) {current=evaluate(web,"localStorage.getItem('device_id')");if(identity.equals(current))break;Thread.sleep(250);}
       assertEquals("Android identity persists across reopening the web app",identity,current);
       Thread.sleep(1000);
-      Bitmap image=instrument.getUiAutomation().takeScreenshot();
-      File file=new File(instrument.getTargetContext().getExternalFilesDir(null),"Fuehrerschein-Android-Login.png");
-      try(FileOutputStream output=new FileOutputStream(file)) {image.compress(Bitmap.CompressFormat.PNG,100,output);}
+      // Save outside app-owned storage: Gradle uninstalls instrumentation apps on completion.
+      try (ParcelFileDescriptor descriptor=instrument.getUiAutomation().executeShellCommand(
+          "screencap -p /sdcard/Download/Fuehrerschein-Android-Login.png");
+          FileInputStream output=new FileInputStream(descriptor.getFileDescriptor())) {
+        while(output.read()!=-1) { /* Wait for shell capture to finish before closing the app. */ }
+      }
     } finally {instrument.runOnMainSync(activity::finish);}
   }
 }
