@@ -35,6 +35,7 @@ public class DrivingSmokeTest {
       assertEquals("\"android\"",evaluate(web,"Capacitor.getPlatform()"));
       assertEquals("true",evaluate(web,"localStorage.getItem('device_id').startsWith('android-')"));
       assertEquals("\"function\"",evaluate(web,"typeof FuehrerscheinFeatures.api"));
+      assertEquals("Per-question AI explanations module loaded", "true", evaluate(web,"window.__fvAiExplanationsMounted===true"));
       evaluate(web,"window.__probe='waiting'; fetch('https://nguyenron.com/fuehrerschein-backend/api/me.php',{credentials:'omit'}).then(async r=>{const d=await r.json();window.__probe=(r.status===401||r.status===403||r.status===200)&&d&&typeof d==='object'?'ok':'invalid';}).catch(()=>window.__probe='error')");
       deadline=System.currentTimeMillis()+45000;String result="";
       while(System.currentTimeMillis()<deadline) {result=evaluate(web,"window.__probe");if(!result.equals("\"waiting\""))break;Thread.sleep(250);}

@@ -1,7 +1,7 @@
 name: Driving Android APK and AAB
 on:
   push:
-    branches: ['android-driving-*']
+    branches: ['android-driving-*', 'codex/android-ai-explanations-*']
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,8 +24,8 @@ jobs:
           npx tsc --noEmit --ignoreDeprecations 6.0
           npm run build
           cd ..
-          node --test tests/android-bootstrap.test.mjs
-      - name: Prepare shared iOS bundle for Android
+          node --test tests/android-bootstrap.test.mjs tests/android-packaging.test.mjs
+      - name: Prepare fresh shared frontend for Android
         run: |
           node scripts/prepare-driving-android.mjs
           cd mobile-app-source
@@ -50,16 +50,17 @@ jobs:
       - name: Install SDK and build checked APK/AAB
         run: |
           sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
-          gradle -p mobile-app-source/android --no-daemon :app:lintDebug :app:assembleDebug :app:bundleRelease :app:assembleDebugAndroidTest
+          gradle -p mobile-app-source/android --no-daemon :app:lintDebug :app:assembleDebug :app:assembleRelease :app:bundleRelease :app:assembleDebugAndroidTest
       - name: Stage APK and bundle for signing
         run: |
           mkdir -p driving-deliverables
-          cp mobile-app-source/android/app/build/outputs/apk/debug/app-debug.apk driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.0-preview1.apk
-          cp mobile-app-source/android/app/build/outputs/bundle/release/app-release.aab driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.0-UNSIGNED.aab
+          cp mobile-app-source/android/app/build/outputs/apk/debug/app-debug.apk driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.1-preview.apk
+          cp mobile-app-source/android/app/build/outputs/apk/release/app-release-unsigned.apk driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.1-UNSIGNED.apk
+          cp mobile-app-source/android/app/build/outputs/bundle/release/app-release.aab driving-deliverables/Fuehrerschein-Viet-Duc-Android-v1.0.1-UNSIGNED.aab
           sha256sum driving-deliverables/* > driving-deliverables/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: Fuehrerschein-Android-preview1
+          name: Fuehrerschein-Android-AI-v1.0.1
           path: driving-deliverables/
           retention-days: 14
       - name: Enable emulator acceleration

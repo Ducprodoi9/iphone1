@@ -562,7 +562,10 @@ function QuestionTopBar({ q, qIndex, total, showVi, onExplain, timeLabel }: { q:
       <span>{tx('Frage', 'Câu')} {qIndex + 1}/{total}</span>
       {timeLabel
         ? <div className="exam-time-center">{timeLabel}</div>
-        : <button type="button" className="bulb-btn" onClick={onExplain} aria-label={tx('Erklärung anzeigen', 'Xem giải thích')}>💡</button>
+        : <div className="fv-ai-explain-tools">
+            <button type="button" className="bulb-btn" onClick={onExplain} aria-label={tx('Erklärung anzeigen', 'Xem giải thích')}>💡</button>
+            <span className="ai-explanation-slot" data-ai-question-id={q.id} data-ai-question-code={q.question_code} hidden />
+          </div>
       }
       <b>{tx('Punkte', 'Điểm')}: {q?.points || 0}</b>
     </div>

@@ -1,0 +1,42 @@
+.question-topbar .ai-explanation-slot{display:inline-flex;margin:0;padding:0;min-height:0}
+.ai-explanation-slot[hidden]{display:none!important}
+.fv-ai-explain-button{border:1px solid #d3ac2a;background:#fff9df;color:#463714;border-radius:999px;padding:7px 14px;font-family:inherit;font-weight:600;font-size:13px;line-height:1.4;cursor:pointer;max-width:100%}
+.fv-ai-explain-button::before{content:'✦';margin-right:6px}
+.fv-ai-explain-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.58);padding:16px;box-sizing:border-box}
+.fv-ai-explain-dialog{background:#fff;color:#18212f;border-radius:18px;width:min(720px,100%);max-height:calc(100dvh - 32px);max-height:calc(100vh - 32px);display:flex;flex-direction:column;box-shadow:0 18px 65px #0004;overflow:hidden;font:15px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif}
+.fv-ai-explain-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 0;flex:none}
+.fv-ai-explain-header h2{margin:0;font-size:21px;line-height:1.3}
+.fv-ai-explain-close{border:0;border-radius:50%;background:#f0f2f5;color:#293447;width:38px;height:38px;font-size:27px;line-height:1;cursor:pointer;flex:none}
+.fv-ai-explain-subtitle{margin:4px 20px 12px;font-size:12px;color:#637085}
+.fv-ai-explain-body{padding:0 20px 18px;overflow:auto;overscroll-behavior:contain;min-height:80px;min-width:0}
+.fv-ai-explain-text{white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal}
+.fv-ai-explain-error{color:#a42626;white-space:pre-wrap;overflow-wrap:anywhere}
+.fv-ai-explain-footer{display:flex;justify-content:flex-end;gap:10px;padding:12px 20px;border-top:1px solid #e5e9ef;flex:none;flex-wrap:wrap}
+.fv-ai-explain-done,.fv-ai-explain-retry{font:inherit;font-size:14px;border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid #ddd}
+.fv-ai-explain-done{background:#f7cb45;color:#30280e;border-color:#e8b722}.fv-ai-explain-retry{background:white;color:#293447}
+.fv-ai-explain-retry[hidden]{display:none!important}
+.fv-ai-explain-loading{color:#637085;animation:fv-ai-explain-pulse 1.2s ease-in-out infinite}
+@keyframes fv-ai-explain-pulse{50%{opacity:.45}}
+@media(prefers-reduced-motion:reduce){.fv-ai-explain-loading{animation:none}}
+@media(max-width:480px){.fv-ai-explain-overlay{padding:10px}.fv-ai-explain-dialog{border-radius:14px;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px)}.fv-ai-explain-header{padding:14px 16px 0}.fv-ai-explain-subtitle{margin-left:16px;margin-right:16px}.fv-ai-explain-body{padding:0 16px 14px}.fv-ai-explain-footer{padding:10px 16px}.fv-ai-explain-header h2{font-size:19px}}
+.fv-ai-explain-tools{display:flex;align-items:center;justify-content:center;gap:6px;height:100%}
+.fv-ai-explain-tools>.bulb-btn{width:50px;flex:0 0 50px}
+.question-topbar.fv-ai-explain-enabled{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+.question-topbar .fv-ai-explain-button{height:28px;padding:3px 9px;white-space:nowrap;font-size:12px;line-height:1}
+.question-topbar .fv-ai-explain-button span{padding:0}
+.fv-ai-explain-short{display:none}
+@media(max-width:599px){.fv-ai-explain-long{display:none}.fv-ai-explain-short{display:inline}}
+
+/* Same production dialog, adapted to the existing WKWebView safe area. */
+.fv-ai-explain-overlay{padding-top:max(10px,env(safe-area-inset-top));padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.fv-ai-explain-dialog{max-height:calc(100dvh - max(10px,env(safe-area-inset-top)) - max(10px,env(safe-area-inset-bottom)))}
+.fv-ai-explain-close,.fv-ai-explain-done,.fv-ai-explain-retry{min-height:44px;min-width:44px}
+.fv-ai-explain-body{min-height:0;-webkit-overflow-scrolling:touch}
+.fv-ai-explain-text{white-space:normal}
+.fv-ai-explain-text p{margin:0 0 10px;white-space:pre-wrap}
+.fv-ai-explain-text h3,.fv-ai-explain-text h4{margin:14px 0 6px;font-size:16px;line-height:1.4}
+.fv-ai-explain-text ul,.fv-ai-explain-text ol{margin:6px 0 12px;padding-left:24px}
+.fv-ai-explain-text li{margin:4px 0;white-space:pre-wrap}
+.fv-ai-explain-text blockquote{margin:8px 0;padding-left:12px;border-left:3px solid #d3ac2a}
+.fv-ai-explain-text code{background:#f0f2f5;padding:2px 4px;border-radius:4px}
+.question-topbar .fv-ai-explain-tools{min-width:0}

@@ -23,3 +23,7 @@ build/
 # Logs and temporary files
 *.log
 *.tmp
+
+/mobile-app-source/android/
+/mobile-app-source/android-web/
+/.superpowers/
